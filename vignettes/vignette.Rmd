@@ -1,0 +1,241 @@
+---
+title: "vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 4
+)
+```
+
+# Introduction
+
+The `ggbulksurv` package provides functions to facilitate bulk survival analysis. 
+
+**What is bulk survival analysis?** 
+
+For some model organisms (eg _C. elegans_ and _D. melanogaster_), lifespan studies are usually performed in bulk. In bulk survival analysis, researchers place a certain number of organisms in a vial, and count the number of organisms that are dead/censored on any particular day. This produces a table that looks like this: 
+
+condition | day | dead | censored
+----      | --  | --   | ----
+WT        | 10  | 2    | 0
+WT        | 12  | 0    | 1
+...
+
+
+**What this package does**
+
+Unsurprisingly, survival analysis packages in R (eg `survival`, `survminer`) each row to correspond to one individual. Wrangling the data manually is often a rather tedious task, especially if you use Excel. 
+
+The `ggbulksurv` package allows bulk survival analysis to be run using just one function. 
+
+This package simplifies bulk survival analysis through the creation of various helper functions. They are:
+
+1. `get_indiv_surv`: Converts a bulk survival table into an individual survival table.
+2. `fit_surv`: Fits a survival object from `survival::survfit()`.
+3. `plot_surv`: Plots a survival curve using `survminer::ggsurvplot()`..
+
+For ease of use, all 3 of the above functions have been wrapped in a single function, `run_bulksurv()`.
+
+
+# Setup
+
+```{r}
+library(ggbulksurv)
+```
+
+
+Read in the csv file:
+
+```{r}
+data(sample_data)
+```
+
+
+```{r}
+head(sample_data) # A quick preview
+```
+
+
+# Getting started (quick)
+
+Run a default analysis with one line: 
+
+```{r}
+p <- run_bulksurv(sample_data, 
+                  sample_order = c("WT", "Drug1", "Drug2"), 
+                  type = "survival")
+
+p
+```
+
+
+## Turning off the summary statistics:
+
+```{r}
+run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"), 
+             print_stats = FALSE # don't print stats
+             )
+```
+
+## Color palettes
+
+### Brewer palettes
+
+```{r}
+# Using the Set1 brewer palette
+run_bulksurv(sample_data, 
+             sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             palette = "Set1" # Custom brewer palette
+             )
+```
+
+
+### Journal palettes
+
+```{r}
+# Using the Set1 brewer palette
+run_bulksurv(sample_data, 
+             sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             palette = "npg" # Nature palette
+             )
+```
+
+
+### Specific colors
+```{r}
+# Using manual colors
+run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             palette = c("black", "red", "purple") # Custom colors
+             )
+```
+
+## Legends
+
+### Removing legend title
+
+```{r}
+run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             legend.title = "" # Remove the legend title
+             )
+```
+
+### Placing legend in the plot: 
+
+```{r}
+run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             legend.position = c(0.9, 0.9))
+```
+
+## Annotations
+
+### Adding pvalue and 50% median survival line
+
+```{r}
+run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             add.median.survival = TRUE, # Add median survival
+             add.pval = TRUE # Add pvalue
+             )
+```
+
+### Changing the x-axis breaks:
+```{r}
+run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             add.median.survival = TRUE,
+             break.x.by = 5 # x-axis: break every 5 days
+             )
+```
+
+Putting it all together: 
+```{r}
+run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             palette = c("black", "red", "purple"), # Custom colors
+             legend.title = "",                     # Remove legend title
+             legend.position = c(0.9, 0.9),         # Position legend at top right
+             add.pval = TRUE                        # Add pvalue
+             )
+```
+
+
+# Getting started (slower)
+
+This section takes you through the 3 steps that `run_bulksurv()` wraps around. 
+
+## 1. Get individual survivals
+
+`get_indiv_surv` converts a table of bulk survival data into individual survivals. Each row now represents an individual. `day` represents the number of days lived, while `status` is either 0 (censored) or 1 (dead). 
+
+
+```{r}
+df_isurv <- get_indiv_surv(sample_data,
+                           sample_order = c("WT", "Drug1", "Drug2"))
+
+head(df_isurv)
+```
+
+## 2. Fit the survival object
+
+`fit_surv` takes in a `data.frame` generated by `get_indiv_surv()`, and creates a `survfit` object using the `survival::survfit()` function. 
+
+
+```{r}
+df_fit <- fit_surv(df_isurv)
+
+head(df_fit)
+```
+
+## 3. Plot the survival object
+
+
+```{r}
+plot_surv(fit = df_fit, type = "survival", data = df_isurv)
+```
+
+# Plotting other curves
+
+- interfacing with survminer
+
+- interfacing with the survival package 
+
+# FAQs
+
+**1. What is censored data?**
+
+Status = 1: Dead
+
+Status = 0: Censored. 
+
+In biological terms, this is an individual that was alive at this point, but went missing from this dataset. 
+
+Some common lab examples that come to mind: 
+
+- A fly that escaped when uncapping the vial
+- A fly that was accidentally squished when transferring vials
+- A fly that was stuck in the food because you forgot to change the vial
+- A worm that crawled into the abyss that is an agar crack
+
+Basically, if an individual was alive up till that point, and died/disappeared due to a reason __other__ than natural causes, we refer to it as a `censored` datapoint. 
+
+
+```{r}
+sessionInfo()
+```
+
+
+
