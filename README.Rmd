@@ -61,7 +61,8 @@ BiocManager::install(c("survival", "survminer"))
 You can install the development version of `ggbulksurv` from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")
 devtools::install_github("qhuitan/ggbulksurv")
 ```
 

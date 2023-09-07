@@ -65,7 +65,8 @@ You can install the development version of `ggbulksurv` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")
 devtools::install_github("qhuitan/ggbulksurv")
 ```
 
@@ -541,17 +542,17 @@ sessionInfo()
 #> loaded via a namespace (and not attached):
 #>  [1] zoo_1.8-11        tidyselect_1.2.0  xfun_0.37         janitor_2.2.0    
 #>  [5] purrr_1.0.1       splines_4.2.2     lattice_0.20-45   carData_3.0-5    
-#>  [9] snakecase_0.11.0  colorspace_2.1-0  vctrs_0.6.1       generics_0.1.3   
+#>  [9] snakecase_0.11.0  colorspace_2.1-0  vctrs_0.6.3       generics_0.1.3   
 #> [13] htmltools_0.5.4   yaml_2.3.7        utf8_1.2.3        survMisc_0.5.6   
-#> [17] rlang_1.1.0       pillar_1.9.0      withr_2.5.0       glue_1.6.2       
+#> [17] rlang_1.1.1       pillar_1.9.0      withr_2.5.0       glue_1.6.2       
 #> [21] lifecycle_1.0.3   stringr_1.5.0     munsell_0.5.0     ggsignif_0.6.4   
 #> [25] gtable_0.3.3      evaluate_0.20     labeling_0.4.2    knitr_1.42       
 #> [29] fastmap_1.1.1     fansi_1.0.4       highr_0.10        broom_1.0.3      
 #> [33] xtable_1.8-4      scales_1.2.1      backports_1.4.1   abind_1.4-5      
-#> [37] farver_2.1.1      km.ci_0.5-6       gridExtra_2.3     digest_0.6.31    
-#> [41] stringi_1.7.12    rstatix_0.7.2     dplyr_1.1.1       KMsurv_0.1-5     
+#> [37] farver_2.1.1      km.ci_0.5-6       gridExtra_2.3     digest_0.6.33    
+#> [41] stringi_1.7.12    rstatix_0.7.2     dplyr_1.1.2       KMsurv_0.1-5     
 #> [45] grid_4.2.2        cli_3.6.1         tools_4.2.2       magrittr_2.0.3   
 #> [49] tibble_3.2.1      tidyr_1.3.0       car_3.1-1         pkgconfig_2.0.3  
-#> [53] Matrix_1.5-3      data.table_1.14.8 timechange_0.2.0  lubridate_1.9.1  
+#> [53] Matrix_1.5-4.1    data.table_1.14.8 timechange_0.2.0  lubridate_1.9.1  
 #> [57] rmarkdown_2.20    rstudioapi_0.14   R6_2.5.1          compiler_4.2.2
 ```
