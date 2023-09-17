@@ -71,6 +71,7 @@ Plot survival curve: plot_surv()
 <span>  print_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  returnData <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  p_adjust_method <span class="op">=</span> <span class="st">"BH"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -105,6 +106,11 @@ test and pairwise log-rank test with p-value corrections. Default: TRUE</p></dd>
 
 <dt>verbose</dt>
 <dd><p>logical, display messages on progress? Default: FALSE</p></dd>
+
+
+<dt>p_adjust_method</dt>
+<dd><p>either "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none". Default: "BH". For details, see <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">?stats::p.adjust</a></code>.</p></dd>
 
 
 <dt>...</dt>

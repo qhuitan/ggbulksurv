@@ -60,6 +60,7 @@
 <span>  add.median.survival <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  add.conf.int <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  add.pval <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  p_adjust_method <span class="op">=</span> <span class="st">"BH"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -98,6 +99,11 @@ legend.title = "". Default: "Condition"</p></dd>
 
 <dt>add.pval</dt>
 <dd><p>logical, whether to add the p-value. Default: FALSE</p></dd>
+
+
+<dt>p_adjust_method</dt>
+<dd><p>character, either "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none". Default: "BH". For details, see <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">?stats::p.adjust</a></code>.</p></dd>
 
 
 <dt>...</dt>
