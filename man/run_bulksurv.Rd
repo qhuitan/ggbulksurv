@@ -12,6 +12,7 @@ run_bulksurv(
   print_plot = TRUE,
   returnData = FALSE,
   verbose = FALSE,
+  p_adjust_method = "BH",
   ...
 )
 }
@@ -31,6 +32,9 @@ test and pairwise log-rank test with p-value corrections. Default: TRUE}
 \item{returnData}{logical, whether to return plot and statistics as a list? Default: FALSE}
 
 \item{verbose}{logical, display messages on progress? Default: FALSE}
+
+\item{p_adjust_method}{either "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none". Default: "BH". For details, see \code{?stats::p.adjust}.}
 
 \item{...}{additional plot parameters passed to \code{survminer::ggsurvplot}.
 Some useful parameters: \code{conf.int = TRUE}, \code{pval = TRUE}.}

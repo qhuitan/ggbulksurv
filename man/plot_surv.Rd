@@ -13,6 +13,7 @@ plot_surv(
   add.median.survival = FALSE,
   add.conf.int = FALSE,
   add.pval = FALSE,
+  p_adjust_method = "BH",
   ...
 )
 }
@@ -34,6 +35,9 @@ legend.title = "". Default: "Condition"}
 \item{add.conf.int}{logical, whether to add confidence intervals. Default: FALSE}
 
 \item{add.pval}{logical, whether to add the p-value. Default: FALSE}
+
+\item{p_adjust_method}{character, either "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none". Default: "BH". For details, see \code{?stats::p.adjust}.}
 
 \item{...}{additional arguments passed to \code{survminer::ggsurvplot()}.
 See full list of arguments at \code{\link[survminer:ggsurvplot]{survminer::ggsurvplot()}}.}

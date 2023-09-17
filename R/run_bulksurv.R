@@ -15,6 +15,8 @@
 #'  test and pairwise log-rank test with p-value corrections. Default: TRUE
 #' @param print_plot logical, whether to print the plot. Also returns plot as a
 #'    `ggplot` object for further modification. Default: TRUE
+#' @param p_adjust_method either "holm", "hochberg", "hommel", "bonferroni",
+#'   "BH", "BY", "fdr", "none". Default: "BH". For details, see `?stats::p.adjust`.
 #' @param returnData logical, whether to return plot and statistics as a list? Default: FALSE
 #' @param verbose logical, display messages on progress? Default: FALSE
 #' @param ... additional plot parameters passed to `survminer::ggsurvplot`.
@@ -37,7 +39,9 @@ run_bulksurv <- function(sample_data,
                          print_stats = TRUE,
                          print_plot = TRUE,
                          returnData = FALSE,
-                         verbose = FALSE, ...){
+                         verbose = FALSE,
+                         p_adjust_method = "BH",
+                         ...){
 
   # Convert bulk survival to individual survival
   if(verbose) message("1/4 Getting individual survivals")
@@ -52,13 +56,16 @@ run_bulksurv <- function(sample_data,
   p <- plot_surv(fit = surv_fit, type = type,
                  data = df_isurv,
                  legend.labs = sample_order,
+                 p_adjust_method = p_adjust_method,
                  ...)
 
   if(verbose) message("4/4 Calculating summary statistics")
 
   # If print_stats = TRUE, prints summary stats
   if(print_stats){
-    print(summary_stats(df_isurv, type = "all"))
+    print(summary_stats(df_isurv,
+                        type = "all",
+                        p_adjust_method = p_adjust_method))
   }
 
   # If return_plot = TRUE, returns plot
@@ -72,7 +79,9 @@ run_bulksurv <- function(sample_data,
   # if returnData = TRUE, returns everything as a list
   if(returnData == TRUE) {
 
-    sum_stats <- summary_stats(df_isurv, type = "all")
+    sum_stats <- summary_stats(df_isurv,
+                               type = "all",
+                               p_adjust_method = p_adjust_method)
     ls <- c(list(plot = p),
             sum_stats)
 

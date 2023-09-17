@@ -12,6 +12,8 @@
 #' @param legend.position character, one of type "right", "left", "bottom", or
 #'    "top". For in-plot legends, can be coordinates. c(0,0): bottom left, c(1,1): top right.
 #' @param xlab character, the x-axis label. Default: "Day"
+#' @param p_adjust_method character, either "holm", "hochberg", "hommel", "bonferroni",
+#'   "BH", "BY", "fdr", "none". Default: "BH". For details, see `?stats::p.adjust`.
 #' @param ... additional arguments passed to `survminer::ggsurvplot()`.
 #'   See full list of arguments at [survminer::ggsurvplot()].
 #' @return A `ggplot2` object plotted by the `survminer` package
@@ -42,6 +44,7 @@ plot_surv <- function(fit,
                       add.median.survival = FALSE,
                       add.conf.int = FALSE,
                       add.pval = FALSE,
+                      p_adjust_method = "BH",
                       ...){
 
   ## -- Error handling -- ##
@@ -80,6 +83,7 @@ plot_surv <- function(fit,
     surv.median.line = surv.median.line,
     conf.int = add.conf.int,
     pval = add.pval,
+    p.adjust.method = p_adjust_method,
     ...)$plot
 
   # Styling - bold all axis text, legend title should be empty

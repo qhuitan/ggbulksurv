@@ -11,6 +11,8 @@
 #' @param df_isurv a `data.frame` of survival data, with one individual per row.
 #'   If starting with bulk survival data (multiple observations per row), run [get_indiv_surv()] first.
 #' @param type character, either "median_survival", "logrank", "pairwise" or "all". Default: "all"
+#' @param p_adjust_method character, either "holm", "hochberg", "hommel", "bonferroni",
+#'   "BH", "BY", "fdr", "none". For details, see `?stats::p.adjust`.
 #' @return If `type == "all"`: a `list` object containing results from statistical tests.
 #'  Otherwise, returns a `ggplot` object containing the survival/mortality curve
 #'
@@ -34,7 +36,9 @@
 #' @export
 
 
-summary_stats <- function(df_isurv, type = "all"){
+summary_stats <- function(df_isurv,
+                          type = "all",
+                          p_adjust_method = "BH"){
 
   ## -- Error handling -- ##
   # Check that input is individual survival (check colnames/ values for censored and dead etc)
@@ -45,7 +49,7 @@ summary_stats <- function(df_isurv, type = "all"){
 
   pairwise <- survminer::pairwise_survdiff(Surv(day, status) ~ condition,
                                            data = df_isurv,
-                                           p.adjust.method = "BH")
+                                           p.adjust.method = p_adjust_method)
 
 
 

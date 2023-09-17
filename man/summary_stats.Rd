@@ -4,13 +4,16 @@
 \alias{summary_stats}
 \title{summary_stats}
 \usage{
-summary_stats(df_isurv, type = "all")
+summary_stats(df_isurv, type = "all", p_adjust_method = "BH")
 }
 \arguments{
 \item{df_isurv}{a \code{data.frame} of survival data, with one individual per row.
 If starting with bulk survival data (multiple observations per row), run \code{\link[=get_indiv_surv]{get_indiv_surv()}} first.}
 
 \item{type}{character, either "median_survival", "logrank", "pairwise" or "all". Default: "all"}
+
+\item{p_adjust_method}{character, either "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none". For details, see \code{?stats::p.adjust}.}
 }
 \value{
 If \code{type == "all"}: a \code{list} object containing results from statistical tests.
