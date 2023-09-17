@@ -2,8 +2,11 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  vignette: vignette.html
-last_built: 2023-09-17T18:47Z
+  customizing-plots: customizing-plots.html
+  faqs: faqs.html
+  ggbulksurv: ggbulksurv.html
+  interfacing-with-other-packages: interfacing-with-other-packages.html
+last_built: 2023-09-17T18:50Z
 urls:
   reference: https://qhuitan.github.io/ggbulksurv/reference
   article: https://qhuitan.github.io/ggbulksurv/articles

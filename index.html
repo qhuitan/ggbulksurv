@@ -36,12 +36,17 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="articles/ggbulksurv.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/vignette.html">vignette</a>
+    <a class="dropdown-item" href="articles/customizing-plots.html">Customizing Plots</a>
+    <a class="dropdown-item" href="articles/interfacing-with-other-packages.html">Interfacing with other survival packages</a>
+    <a class="dropdown-item" href="articles/faqs.html">Frequently Asked Questions</a>
   </div>
 </li>
 <li class="nav-item">
@@ -94,6 +99,14 @@
 <p><strong>What does this package do?</strong></p>
 <p><code>ggbulksurv</code> converts bulk survival data into individual observations per row, and plots a survival curve. Other functions are also available to plot mortality curves, customize colors, and to calculate relevant statistics such as median survival and log-rank tests.</p>
 <p><code>ggbulksurv</code> is very much under <strong>active development</strong>, and any feedback and contribution are welcome through the Issues page.</p>
+<p><strong>What is R, and how do I get started?</strong></p>
+<p>Download the most recent versions of R and RStudio for the appropriate OS using the links below:</p>
+<ul>
+<li><a href="https://cran.r-project.org" class="external-link">R</a></li>
+<li><a href="https://posit.co/download/rstudio-desktop/#download" class="external-link">RStudio</a></li>
+</ul>
+<p>If you’re new to R, I highly recommend this great resource by the Harvard Chan Bioinformatics Core. It provides a great overview of the RStudio interface, as well as R Projects that help keep your analysis organized.</p>
+<p><a href="https://hbctraining.github.io/Intro-to-R-flipped/lessons/01_introR-R-and-RStudio.html" class="external-link uri">https://hbctraining.github.io/Intro-to-R-flipped/lessons/01_introR-R-and-RStudio.html</a></p>
 <p><strong>Do I need this package?</strong></p>
 <p>If you are conducting lifespan studies with <em>C.elegans</em> and <em>D.melanogaster</em> - probably.</p>
 <div class="section level2">
@@ -130,13 +143,13 @@
 <span><span class="co">#&gt; Attaching package: 'survminer'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:survival':</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     myeloma</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     myeloma</span></span></code></pre></div>
+<p>Read in your <code>.csv</code> file with the following line of code:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"your-csv-file.csv"</span>)</span></code></pre></div>
+<p>For the purposes of this tutorial, I’ve created a ficitonal sample dataset, <code>sample_data</code> that we will use to illustrate the functions in this package.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">sample_data</span> <span class="co"># load sample data</span></span>
-<span></span>
-<span><span class="co"># If reading in a csv, use this code</span></span>
-<span><span class="co">#dat &lt;- read.csv("/path-to-your-file/file.csv")</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   condition day dead censored</span></span>
@@ -152,7 +165,7 @@
 </h3>
 <p><code>ggbulksurv</code> can be run with the default settings using the <code><a href="reference/run_bulksurv.html">run_bulksurv()</a></code> command.</p>
 <p>Plotting a survival curve:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot a survival curve</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, </span>
 <span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>, </span>
@@ -186,12 +199,10 @@
 <span><span class="co">#&gt; Drug1 2.3e-14 -      </span></span>
 <span><span class="co">#&gt; Drug2 &lt; 2e-16 &lt; 2e-16</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; P value adjustment method: BH</span></span>
-<span></span>
-<span><span class="va">p</span></span></code></pre></div>
+<span><span class="co">#&gt; P value adjustment method: BH</span></span></code></pre></div>
 <p><img src="reference/figures/README-survival-1.png"><!-- --></p>
 <p>Plotting a mortality curve:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot a mortality curve</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, </span>
 <span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>, </span>
@@ -199,192 +210,23 @@
 <span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span> <span class="co"># don't print stats</span></span>
 <span>                  <span class="op">)</span></span>
 <span><span class="co">#&gt; Scale for y is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for y, which will replace the existing scale.</span></span>
-<span></span>
-<span><span class="va">p</span></span></code></pre></div>
+<span><span class="co">#&gt; Adding another scale for y, which will replace the existing scale.</span></span></code></pre></div>
 <p><img src="reference/figures/README-mortality-1.png"><!-- --></p>
-</div>
-<div class="section level3">
-<h3 id="additional-customizations">Additional customizations<a class="anchor" aria-label="anchor" href="#additional-customizations"></a>
-</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, </span>
-<span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
-<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span>,                   <span class="co"># don't print stats</span></span>
-<span>                  palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"purple"</span><span class="op">)</span>, <span class="co"># Custom colors</span></span>
-<span>                  legend.title <span class="op">=</span> <span class="st">""</span>,                     <span class="co"># Remove legend title</span></span>
-<span>                  legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span>,         <span class="co"># Position legend at top right</span></span>
-<span>                  add.pval <span class="op">=</span> <span class="cn">TRUE</span>                        <span class="co"># Add pvalue</span></span>
-<span>             <span class="op">)</span></span>
-<span></span>
-<span><span class="va">p</span></span></code></pre></div>
-<p><img src="reference/figures/README-surv_custom-1.png"><!-- --></p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="getting-started-slower">Getting started (slower)<a class="anchor" aria-label="anchor" href="#getting-started-slower"></a>
+<h2 id="further-customizations">Further customizations<a class="anchor" aria-label="anchor" href="#further-customizations"></a>
 </h2>
-<p>The <code><a href="reference/run_bulksurv.html">run_bulksurv()</a></code> command makes several choices for the user, with the caveat that these assumptions tend to hold under most conditions. Users who desire total control over the process should read this section for a more detailed walkthrough.</p>
-<p><code><a href="reference/run_bulksurv.html">run_bulksurv()</a></code> is a wrapper around the 3 following functions:</p>
-<ol style="list-style-type: decimal">
-<li>
-<code>get_indiv_surv</code>: Converts a bulk survival table into an individual survival table.</li>
-<li>
-<code>fit_surv</code>: Fits a survival object from <code><a href="https://rdrr.io/pkg/survival/man/survfit.html" class="external-link">survival::survfit()</a></code>.</li>
-<li>
-<code>plot_surv</code>: Plots a survival curve using <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" class="external-link">survminer::ggsurvplot()</a></code>.</li>
-</ol>
-<p>This section takes you through the 3 steps that <code><a href="reference/run_bulksurv.html">run_bulksurv()</a></code> wraps around.</p>
 <div class="section level3">
-<h3 id="id_1-get-individual-survivals">1. Get individual survivals<a class="anchor" aria-label="anchor" href="#id_1-get-individual-survivals"></a>
+<h3 id="changing-the-p-adjust-method">Changing the p-adjust method<a class="anchor" aria-label="anchor" href="#changing-the-p-adjust-method"></a>
 </h3>
-<p><code>get_indiv_surv</code> converts a table of bulk survival data into individual survivals. Each row now represents an individual. <code>day</code> represents the number of days lived, while <code>status</code> is either 0 (censored) or 1 (dead).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_isurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_indiv_surv.html">get_indiv_surv</a></span><span class="op">(</span><span class="va">sample_data</span>,</span>
-<span>                           sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 6 × 3</span></span>
-<span><span class="co">#&gt;   condition   day status</span></span>
-<span><span class="co">#&gt;   &lt;fct&gt;     &lt;int&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 WT            1      0</span></span>
-<span><span class="co">#&gt; 2 WT            1      1</span></span>
-<span><span class="co">#&gt; 3 WT            1      1</span></span>
-<span><span class="co">#&gt; 4 Drug1         1      1</span></span>
-<span><span class="co">#&gt; 5 Drug1         1      1</span></span>
-<span><span class="co">#&gt; 6 Drug1         1      1</span></span></code></pre></div>
-<p>We now have a <code>tibble</code> with one individual per row.</p>
-</div>
-<div class="section level3">
-<h3 id="id_2-fit-the-survival-object">2. Fit the survival object<a class="anchor" aria-label="anchor" href="#id_2-fit-the-survival-object"></a>
-</h3>
-<p><code>fit_surv</code> creates a <code>survfit</code> object for <code>day</code> and <code>status</code>, then fits a survival curve by <code>condition</code>. It takes in a <code>data.frame</code> with one individual per row, and creates a <code>survfit</code> object using the <code><a href="https://rdrr.io/pkg/survival/man/survfit.html" class="external-link">survival::survfit()</a></code> function.</p>
+<p>If needed, we can change the p.adjust method. <code><a href="reference/run_bulksurv.html">run_bulksurv()</a></code> accepts the following corrections: “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”. Default: “BH”</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fit survival object</span></span>
-<span><span class="va">df_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_surv.html">fit_surv</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_fit</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                  n events median 0.95LCL 0.95UCL</span></span>
-<span><span class="co">#&gt; condition=WT    50     47   20.0      19      21</span></span>
-<span><span class="co">#&gt; condition=Drug1 50     46    4.5       4       6</span></span>
-<span><span class="co">#&gt; condition=Drug2 50     42   33.0      32      35</span></span></code></pre></div>
-<p>Drug1 has the shortest median lifespan of 4.5 days, with a 95% confidence interval (95% CI) of 4 to 6 days. In contrast, Drug2 has the longest median lifespan of 33 days, with a 95% CI of 32 to 35 days.</p>
-</div>
-<div class="section level3">
-<h3 id="id_3-plot-the-survival-object">3. Plot the survival object<a class="anchor" aria-label="anchor" href="#id_3-plot-the-survival-object"></a>
-</h3>
-<p><code>plot_surv</code> is a wrapper around [survminer::ggsurvplot()]. As such, all additional arguments passed to <code>plot_surv</code> will be passed to <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" class="external-link">survminer::ggsurvplot()</a></code>. Some useful examples are illustrated below:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_isurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_indiv_surv.html">get_indiv_surv</a></span><span class="op">(</span><span class="va">sample_data</span>,</span>
-<span>                           sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span>fit <span class="op">=</span> <span class="va">df_fit</span>, </span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>,</span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-surv_detail-1.png"><!-- --></p>
-<div class="section level4">
-<h4 id="changing-legend-positions">Changing legend positions<a class="anchor" aria-label="anchor" href="#changing-legend-positions"></a>
-</h4>
-<p>Specifying a position (<code>right</code>, <code>left</code>, <code>bottom</code> or <code>top</code>) with <code>legend.position</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span><span class="va">df_fit</span>, </span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>, </span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>          sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
-<span>          print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>          legend.position <span class="op">=</span> <span class="st">"right"</span> <span class="co"># Change legend position</span></span>
-<span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-custom-legright-1.png"><!-- --></p>
-<p>Specific coordinates can also be used. For bottom left, use <code>legend.position = c(0,0)</code>; for top right, use <code>legend.position = c(1,1)</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span><span class="va">df_fit</span>, </span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>, </span>
-<span>          sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
-<span>          print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>          legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span> <span class="co"># Specify coordinates</span></span>
-<span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-custom-legcoord-1.png"><!-- --></p>
-<p>It doesn’t fit - in fact, the legend is partially obscuring our x and y axes.</p>
-<p>We can simplify the legend by removing the legend title and the trailing <code>condition=</code> symbol:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_order</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span><span class="va">df_fit</span>, </span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>, </span>
-<span>          sample_order <span class="op">=</span> <span class="va">sample_order</span>,</span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>          print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>          legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.09</span>,<span class="fl">0.2</span><span class="op">)</span>, <span class="co"># Specify coordinates</span></span>
-<span>          legend.title <span class="op">=</span> <span class="st">""</span>, <span class="co"># Remove legend title</span></span>
-<span>          legend.labs <span class="op">=</span> <span class="va">sample_order</span> <span class="co"># Remove `condition=`</span></span>
-<span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-custom-rmlegtitle-1.png"><!-- --></p>
-</div>
-<div class="section level4">
-<h4 id="adding-confidence-intervals-and-median-survival">Adding confidence intervals and median survival<a class="anchor" aria-label="anchor" href="#adding-confidence-intervals-and-median-survival"></a>
-</h4>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span><span class="va">df_fit</span>, </span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>,</span>
-<span>          add.conf.int <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Add 95% confidence interval</span></span>
-<span>          legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-custom-addci-1.png"><!-- --></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span><span class="va">df_fit</span>, </span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>,</span>
-<span>          add.median.survival <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Add median survival line</span></span>
-<span>          legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-custom-addmedsurv-1.png"><!-- --></p>
-</div>
-<div class="section level4">
-<h4 id="customizing-x-axis-day-breaks">Customizing x-axis day breaks<a class="anchor" aria-label="anchor" href="#customizing-x-axis-day-breaks"></a>
-</h4>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span><span class="va">df_fit</span>, </span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>,</span>
-<span>          legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
-<span>          break.x.by <span class="op">=</span> <span class="fl">5</span> <span class="co"># Breaks every 5 days</span></span>
-<span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-custom-xbreak-1.png"><!-- --></p>
-<p>Putting it all together:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_order</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/plot_surv.html">plot_surv</a></span><span class="op">(</span><span class="va">df_fit</span>, </span>
-<span>          data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>          type <span class="op">=</span> <span class="st">"survival"</span>,</span>
-<span>          sample_order <span class="op">=</span> <span class="va">sample_order</span>,</span>
-<span>          legend.labs <span class="op">=</span> <span class="va">sample_order</span>,            <span class="co"># Rename legend</span></span>
-<span>          print_stats <span class="op">=</span> <span class="cn">FALSE</span>,                   <span class="co"># don't print stats</span></span>
-<span>          palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"purple"</span><span class="op">)</span>, <span class="co"># Custom colors</span></span>
-<span>          legend.title <span class="op">=</span> <span class="st">""</span>,                     <span class="co"># Remove legend title</span></span>
-<span>          legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span>,         <span class="co"># Position legend at top right</span></span>
-<span>          add.pval <span class="op">=</span> <span class="cn">TRUE</span>,                        <span class="co"># Add pvalue</span></span>
-<span>          add.median.survival <span class="op">=</span> <span class="cn">TRUE</span>             <span class="co"># Add 50% median line</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-custom-1-1.png"><!-- --></p>
-<p>Alternatively, you can construct your own plots using <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" class="external-link">survminer::ggsurvplot</a></code>:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">survminer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" class="external-link">ggsurvplot</a></span><span class="op">(</span>fit <span class="op">=</span> <span class="va">df_fit</span>,</span>
-<span>                      data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>                      ncensor.plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-ggsurvplot-1.png"><!-- --></p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="id_4-print-summary-statistics">4. Print summary statistics<a class="anchor" aria-label="anchor" href="#id_4-print-summary-statistics"></a>
-</h3>
-<p>Calculates median survival, logrank test and pairwise logrank test with BH correction:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/summary_stats.html">summary_stats</a></span><span class="op">(</span><span class="va">df_isurv</span>, type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">stats</span></span>
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, </span>
+<span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>, </span>
+<span>                  type <span class="op">=</span> <span class="st">"survival"</span>,</span>
+<span>                  p_adjust_method <span class="op">=</span> <span class="st">"bonferroni"</span> <span class="co"># use bonferroni correction</span></span>
+<span>                  <span class="op">)</span></span>
 <span><span class="co">#&gt; $median_survival</span></span>
 <span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -411,81 +253,76 @@
 <span><span class="co">#&gt; data:  df_isurv and condition </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;       WT      Drug1  </span></span>
-<span><span class="co">#&gt; Drug1 2.3e-14 -      </span></span>
-<span><span class="co">#&gt; Drug2 &lt; 2e-16 &lt; 2e-16</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; P value adjustment method: BH</span></span></code></pre></div>
-<p>This returns a <code>list</code> object, which allows us to individually pull out the values of interest. For example:</p>
-<div class="section level4">
-<h4 id="the-logrank-test">The logrank test:<a class="anchor" aria-label="anchor" href="#the-logrank-test"></a>
-</h4>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">stats</span><span class="op">$</span><span class="va">logrank</span></span>
-<span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; survival::survdiff(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                  N Observed Expected (O-E)^2/E (O-E)^2/V</span></span>
-<span><span class="co">#&gt; condition=WT    50       47     31.2      7.94      12.9</span></span>
-<span><span class="co">#&gt; condition=Drug1 50       46     12.5     89.99     128.1</span></span>
-<span><span class="co">#&gt; condition=Drug2 50       42     91.3     26.60     123.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  Chisq= 186  on 2 degrees of freedom, p= &lt;2e-16</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># chisq value of logrank test</span></span>
-<span><span class="va">stats</span><span class="op">$</span><span class="va">logrank</span><span class="op">$</span><span class="va">chisq</span></span>
-<span><span class="co">#&gt; [1] 186.0854</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># pvalue of logrank test</span></span>
-<span><span class="va">stats</span><span class="op">$</span><span class="va">logrank</span><span class="op">$</span><span class="va">pvalue</span></span>
-<span><span class="co">#&gt; [1] 3.909058e-41</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="pairwise-log-rank-test">Pairwise log-rank test:<a class="anchor" aria-label="anchor" href="#pairwise-log-rank-test"></a>
-</h4>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">stats</span><span class="op">$</span><span class="va">pairwise</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  Pairwise comparisons using Log-Rank test </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; data:  df_isurv and condition </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       WT      Drug1  </span></span>
-<span><span class="co">#&gt; Drug1 2.3e-14 -      </span></span>
-<span><span class="co">#&gt; Drug2 &lt; 2e-16 &lt; 2e-16</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; P value adjustment method: BH</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># p-values</span></span>
-<span><span class="va">stats</span><span class="op">$</span><span class="va">pairwise</span><span class="op">$</span><span class="va">p.value</span></span>
-<span><span class="co">#&gt;                 WT       Drug1</span></span>
-<span><span class="co">#&gt; Drug1 2.291558e-14          NA</span></span>
-<span><span class="co">#&gt; Drug2 3.367080e-24 3.36708e-24</span></span></code></pre></div>
-<p>To use a different p-value adjustment method, call <code><a href="https://rdrr.io/pkg/survminer/man/pairwise_survdiff.html" class="external-link">survminer::pairwise_survdiff()</a></code>. For example, to use the Bonferroni correction method, use this code:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">test</span> <span class="op">=</span> <span class="fu">survminer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/pairwise_survdiff.html" class="external-link">pairwise_survdiff</a></span><span class="op">(</span></span>
-<span>  formula <span class="op">=</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">day</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">condition</span>, <span class="co"># Fit a survival object</span></span>
-<span>  data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
-<span>  p.adjust.method <span class="op">=</span> <span class="st">"bonferroni"</span> <span class="co"># Use bonferroni correction</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="va">test</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  Pairwise comparisons using Log-Rank test </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; data:  df_isurv and condition </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       WT      Drug1  </span></span>
 <span><span class="co">#&gt; Drug1 6.9e-14 -      </span></span>
 <span><span class="co">#&gt; Drug2 &lt; 2e-16 &lt; 2e-16</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; P value adjustment method: bonferroni</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># obtain specific p-values</span></span>
-<span><span class="va">test</span><span class="op">$</span><span class="va">p.value</span></span>
-<span><span class="co">#&gt;                 WT       Drug1</span></span>
-<span><span class="co">#&gt; Drug1 6.874675e-14          NA</span></span>
-<span><span class="co">#&gt; Drug2 5.465280e-24 6.73416e-24</span></span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png"><!-- --></p>
+</div>
+<div class="section level3">
+<h3 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
+</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, </span>
+<span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
+<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span>,                   <span class="co"># don't print stats</span></span>
+<span>                  palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"purple"</span><span class="op">)</span>, <span class="co"># Custom colors</span></span>
+<span>                  legend.title <span class="op">=</span> <span class="st">""</span>,                     <span class="co"># Remove legend title</span></span>
+<span>                  legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span>,         <span class="co"># Position legend at top right</span></span>
+<span>                  add.pval <span class="op">=</span> <span class="cn">TRUE</span>                        <span class="co"># Add pvalue</span></span>
+<span>             <span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-surv_custom-1.png"><!-- --></p>
+</div>
+<div class="section level3">
+<h3 id="subsetting-data">Subsetting data<a class="anchor" aria-label="anchor" href="#subsetting-data"></a>
+</h3>
+<p>What if you’re only interested in two conditions (eg WT vs Drug1)?</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Specify your conditions of itnerest here</span></span>
+<span><span class="va">conditions_of_interest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">dat_filt</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># Keep rows where condition is in conditions_of_interest</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">conditions_of_interest</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Plot</span></span>
+<span><span class="va">p_filt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat_filt</span>, </span>
+<span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span><span class="op">)</span>, </span>
+<span>                  type <span class="op">=</span> <span class="st">"mortality"</span>,</span>
+<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span> <span class="co"># don't print stats</span></span>
+<span>                  <span class="op">)</span></span>
+<span><span class="co">#&gt; Scale for y is already present.</span></span>
+<span><span class="co">#&gt; Adding another scale for y, which will replace the existing scale.</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png"><!-- --></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="other-functionalities">Other functionalities<a class="anchor" aria-label="anchor" href="#other-functionalities"></a>
+</h2>
+<div class="section level3">
+<h3 id="interfacing-with-prism">Interfacing with PRISM<a class="anchor" aria-label="anchor" href="#interfacing-with-prism"></a>
+</h3>
+<p>GraphPad PRISM remains a favourite among biologists. To allow bulk survival data to be quickly converted to a PRISM-compatible format, use the <code>pivot_prism</code> function:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_prism</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pivot_prism.html">pivot_prism</a></span><span class="op">(</span><span class="va">dat</span>, </span>
+<span>                        sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_prism</span><span class="op">)</span> <span class="co"># A quick look</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span><span class="co">#&gt; # Groups:   day [1]</span></span>
+<span><span class="co">#&gt;     day    WT Drug1 Drug2</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1     1     0    NA    NA</span></span>
+<span><span class="co">#&gt; 2     1     1    NA    NA</span></span>
+<span><span class="co">#&gt; 3     1     1    NA    NA</span></span>
+<span><span class="co">#&gt; 4     1     1     1    NA</span></span>
+<span><span class="co">#&gt; 5     1     1     1    NA</span></span>
+<span><span class="co">#&gt; 6     1     1     1    NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Export to csv</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">df_prism</span>, file <span class="op">=</span> <span class="st">"lifespan_prism.csv"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.2.2 (2022-10-31)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20 (64-bit)</span></span>
@@ -516,7 +353,7 @@
 <span><span class="co">#&gt; [29] fastmap_1.1.1     fansi_1.0.4       highr_0.10        broom_1.0.3      </span></span>
 <span><span class="co">#&gt; [33] xtable_1.8-4      scales_1.2.1      backports_1.4.1   abind_1.4-5      </span></span>
 <span><span class="co">#&gt; [37] farver_2.1.1      km.ci_0.5-6       gridExtra_2.3     digest_0.6.33    </span></span>
-<span><span class="co">#&gt; [41] stringi_1.7.12    rstatix_0.7.2     dplyr_1.1.2       KMsurv_0.1-5     </span></span>
+<span><span class="co">#&gt; [41] stringi_1.7.12    rstatix_0.7.2     dplyr_1.1.3       KMsurv_0.1-5     </span></span>
 <span><span class="co">#&gt; [45] grid_4.2.2        cli_3.6.1         tools_4.2.2       magrittr_2.0.3   </span></span>
 <span><span class="co">#&gt; [49] tibble_3.2.1      tidyr_1.3.0       car_3.1-1         pkgconfig_2.0.3  </span></span>
 <span><span class="co">#&gt; [53] Matrix_1.5-4.1    data.table_1.14.8 timechange_0.2.0  lubridate_1.9.1  </span></span>
@@ -524,12 +361,11 @@
 </div>
 </div>
 </div>
-</div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small>GPL (&gt;= 3)</small></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 

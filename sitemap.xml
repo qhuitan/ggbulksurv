@@ -10,10 +10,19 @@
     <loc>https://qhuitan.github.io/ggbulksurv/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/customizing-plots.html</loc>
+  </url>
+  <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/faqs.html</loc>
+  </url>
+  <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/ggbulksurv.html</loc>
+  </url>
+  <url>
     <loc>https://qhuitan.github.io/ggbulksurv/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://qhuitan.github.io/ggbulksurv/articles/vignette.html</loc>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/interfacing-with-other-packages.html</loc>
   </url>
   <url>
     <loc>https://qhuitan.github.io/ggbulksurv/authors.html</loc>
@@ -35,6 +44,9 @@
   </url>
   <url>
     <loc>https://qhuitan.github.io/ggbulksurv/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/reference/pivot_prism.html</loc>
   </url>
   <url>
     <loc>https://qhuitan.github.io/ggbulksurv/reference/plot_surv.html</loc>
