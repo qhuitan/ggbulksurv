@@ -39,6 +39,21 @@ statistics such as median survival and log-rank tests.
 `ggbulksurv` is very much under **active development**, and any feedback
 and contribution are welcome through the Issues page.
 
+**What is R, and how do I get started?**
+
+Download the most recent versions of R and RStudio for the appropriate
+OS using the links below:
+
+- [R](https://cran.r-project.org)
+- [RStudio](https://posit.co/download/rstudio-desktop/#download)
+
+If you’re new to R, I highly recommend this great resource by the
+Harvard Chan Bioinformatics Core. It provides a great overview of the
+RStudio interface, as well as R Projects that help keep your analysis
+organized.
+
+<https://hbctraining.github.io/Intro-to-R-flipped/lessons/01_introR-R-and-RStudio.html>
+
 **Do I need this package?**
 
 If you are conducting lifespan studies with *C.elegans* and
@@ -89,12 +104,19 @@ library(survminer)
 #> The following object is masked from 'package:survival':
 #> 
 #>     myeloma
+```
 
+Read in your `.csv` file with the following line of code:
+
+    dat <- read.csv("your-csv-file.csv")
+
+For the purposes of this tutorial, I’ve created a ficitonal sample
+dataset, `sample_data` that we will use to illustrate the functions in
+this package.
+
+``` r
 data(sample_data)
 dat <- sample_data # load sample data
-
-# If reading in a csv, use this code
-#dat <- read.csv("/path-to-your-file/file.csv")
 
 head(dat)
 #>   condition day dead censored
@@ -148,8 +170,6 @@ p <- run_bulksurv(dat,
 #> Drug2 < 2e-16 < 2e-16
 #> 
 #> P value adjustment method: BH
-
-p
 ```
 
 ![](man/figures/README-survival-1.png)<!-- -->
@@ -165,242 +185,24 @@ p <- run_bulksurv(dat,
                   )
 #> Scale for y is already present.
 #> Adding another scale for y, which will replace the existing scale.
-
-p
 ```
 
 ![](man/figures/README-mortality-1.png)<!-- -->
 
-### Additional customizations
+## Further customizations
+
+### Changing the p-adjust method
+
+If needed, we can change the p.adjust method. `run_bulksurv()` accepts
+the following corrections: “holm”, “hochberg”, “hommel”, “bonferroni”,
+“BH”, “BY”, “fdr”, “none”. Default: “BH”
 
 ``` r
 p <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1", "Drug2"),
-                  print_stats = FALSE,                   # don't print stats
-                  palette = c("black", "red", "purple"), # Custom colors
-                  legend.title = "",                     # Remove legend title
-                  legend.position = c(0.9, 0.9),         # Position legend at top right
-                  add.pval = TRUE                        # Add pvalue
-             )
-
-p
-```
-
-![](man/figures/README-surv_custom-1.png)<!-- -->
-
-## Getting started (slower)
-
-The `run_bulksurv()` command makes several choices for the user, with
-the caveat that these assumptions tend to hold under most conditions.
-Users who desire total control over the process should read this section
-for a more detailed walkthrough.
-
-`run_bulksurv()` is a wrapper around the 3 following functions:
-
-1.  `get_indiv_surv`: Converts a bulk survival table into an individual
-    survival table.
-2.  `fit_surv`: Fits a survival object from `survival::survfit()`.
-3.  `plot_surv`: Plots a survival curve using `survminer::ggsurvplot()`.
-
-This section takes you through the 3 steps that `run_bulksurv()` wraps
-around.
-
-### 1. Get individual survivals
-
-`get_indiv_surv` converts a table of bulk survival data into individual
-survivals. Each row now represents an individual. `day` represents the
-number of days lived, while `status` is either 0 (censored) or 1 (dead).
-
-``` r
-df_isurv <- get_indiv_surv(sample_data,
-                           sample_order = c("WT", "Drug1", "Drug2"))
-
-head(df_isurv)
-#> # A tibble: 6 × 3
-#>   condition   day status
-#>   <fct>     <int>  <dbl>
-#> 1 WT            1      0
-#> 2 WT            1      1
-#> 3 WT            1      1
-#> 4 Drug1         1      1
-#> 5 Drug1         1      1
-#> 6 Drug1         1      1
-```
-
-We now have a `tibble` with one individual per row.
-
-### 2. Fit the survival object
-
-`fit_surv` creates a `survfit` object for `day` and `status`, then fits
-a survival curve by `condition`. It takes in a `data.frame` with one
-individual per row, and creates a `survfit` object using the
-`survival::survfit()` function.
-
-``` r
-# Fit survival object
-df_fit <- fit_surv(df_isurv)
-
-head(df_fit)
-#> Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)
-#> 
-#>                  n events median 0.95LCL 0.95UCL
-#> condition=WT    50     47   20.0      19      21
-#> condition=Drug1 50     46    4.5       4       6
-#> condition=Drug2 50     42   33.0      32      35
-```
-
-Drug1 has the shortest median lifespan of 4.5 days, with a 95%
-confidence interval (95% CI) of 4 to 6 days. In contrast, Drug2 has the
-longest median lifespan of 33 days, with a 95% CI of 32 to 35 days.
-
-### 3. Plot the survival object
-
-`plot_surv` is a wrapper around \[survminer::ggsurvplot()\]. As such,
-all additional arguments passed to `plot_surv` will be passed to
-`survminer::ggsurvplot()`. Some useful examples are illustrated below:
-
-``` r
-df_isurv <- get_indiv_surv(sample_data,
-                           sample_order = c("WT", "Drug1", "Drug2"))
-
-plot_surv(fit = df_fit, 
-          type = "survival",
-          data = df_isurv)
-```
-
-![](man/figures/README-surv_detail-1.png)<!-- -->
-
-#### Changing legend positions
-
-Specifying a position (`right`, `left`, `bottom` or `top`) with
-`legend.position`:
-
-``` r
-plot_surv(df_fit, 
-          type = "survival", 
-          data = df_isurv,
-          sample_order = c("WT", "Drug1", "Drug2"),
-          print_stats = FALSE,
-          legend.position = "right" # Change legend position
-          )
-```
-
-![](man/figures/README-custom-legright-1.png)<!-- -->
-
-Specific coordinates can also be used. For bottom left, use
-`legend.position = c(0,0)`; for top right, use
-`legend.position = c(1,1)`.
-
-``` r
-plot_surv(df_fit, 
-          type = "survival", 
-          sample_order = c("WT", "Drug1", "Drug2"),
-          print_stats = FALSE,
-          data = df_isurv,
-          legend.position = c(0,0) # Specify coordinates
-          )
-```
-
-![](man/figures/README-custom-legcoord-1.png)<!-- -->
-
-It doesn’t fit - in fact, the legend is partially obscuring our x and y
-axes.
-
-We can simplify the legend by removing the legend title and the trailing
-`condition=` symbol:
-
-``` r
-sample_order = c("WT", "Drug1", "Drug2")
-
-plot_surv(df_fit, 
-          type = "survival", 
-          sample_order = sample_order,
-          data = df_isurv,
-          print_stats = FALSE,
-          legend.position = c(0.09,0.2), # Specify coordinates
-          legend.title = "", # Remove legend title
-          legend.labs = sample_order # Remove `condition=`
-          )
-```
-
-![](man/figures/README-custom-rmlegtitle-1.png)<!-- -->
-
-#### Adding confidence intervals and median survival
-
-``` r
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          add.conf.int = TRUE, # Add 95% confidence interval
-          legend.position = "bottom")
-```
-
-![](man/figures/README-custom-addci-1.png)<!-- -->
-
-``` r
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          add.median.survival = TRUE, # Add median survival line
-          legend.position = "bottom")
-```
-
-![](man/figures/README-custom-addmedsurv-1.png)<!-- -->
-
-#### Customizing x-axis day breaks
-
-``` r
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          legend.position = "bottom",
-          break.x.by = 5 # Breaks every 5 days
-          )
-```
-
-![](man/figures/README-custom-xbreak-1.png)<!-- -->
-
-Putting it all together:
-
-``` r
-sample_order = c("WT", "Drug1", "Drug2")
-
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          sample_order = sample_order,
-          legend.labs = sample_order,            # Rename legend
-          print_stats = FALSE,                   # don't print stats
-          palette = c("black", "red", "purple"), # Custom colors
-          legend.title = "",                     # Remove legend title
-          legend.position = c(0.9, 0.9),         # Position legend at top right
-          add.pval = TRUE,                        # Add pvalue
-          add.median.survival = TRUE             # Add 50% median line
-             )
-```
-
-![](man/figures/README-custom-1-1.png)<!-- -->
-
-Alternatively, you can construct your own plots using
-`survminer::ggsurvplot`:
-
-``` r
-survminer::ggsurvplot(fit = df_fit,
-                      data = df_isurv,
-                      ncensor.plot = TRUE)
-```
-
-![](man/figures/README-ggsurvplot-1.png)<!-- -->
-
-### 4. Print summary statistics
-
-Calculates median survival, logrank test and pairwise logrank test with
-BH correction:
-
-``` r
-stats <- summary_stats(df_isurv, type = "all")
-
-stats
+                  sample_order = c("WT", "Drug1", "Drug2"), 
+                  type = "survival",
+                  p_adjust_method = "bonferroni" # use bonferroni correction
+                  )
 #> $median_survival
 #> Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)
 #> 
@@ -427,96 +229,82 @@ stats
 #> data:  df_isurv and condition 
 #> 
 #>       WT      Drug1  
-#> Drug1 2.3e-14 -      
-#> Drug2 < 2e-16 < 2e-16
-#> 
-#> P value adjustment method: BH
-```
-
-This returns a `list` object, which allows us to individually pull out
-the values of interest. For example:
-
-#### The logrank test:
-
-``` r
-stats$logrank
-#> Call:
-#> survival::survdiff(formula = Surv(day, status) ~ condition, data = df_isurv)
-#> 
-#>                  N Observed Expected (O-E)^2/E (O-E)^2/V
-#> condition=WT    50       47     31.2      7.94      12.9
-#> condition=Drug1 50       46     12.5     89.99     128.1
-#> condition=Drug2 50       42     91.3     26.60     123.3
-#> 
-#>  Chisq= 186  on 2 degrees of freedom, p= <2e-16
-```
-
-``` r
-# chisq value of logrank test
-stats$logrank$chisq
-#> [1] 186.0854
-```
-
-``` r
-# pvalue of logrank test
-stats$logrank$pvalue
-#> [1] 3.909058e-41
-```
-
-#### Pairwise log-rank test:
-
-``` r
-stats$pairwise
-#> 
-#>  Pairwise comparisons using Log-Rank test 
-#> 
-#> data:  df_isurv and condition 
-#> 
-#>       WT      Drug1  
-#> Drug1 2.3e-14 -      
-#> Drug2 < 2e-16 < 2e-16
-#> 
-#> P value adjustment method: BH
-```
-
-``` r
-# p-values
-stats$pairwise$p.value
-#>                 WT       Drug1
-#> Drug1 2.291558e-14          NA
-#> Drug2 3.367080e-24 3.36708e-24
-```
-
-To use a different p-value adjustment method, call
-`survminer::pairwise_survdiff()`. For example, to use the Bonferroni
-correction method, use this code:
-
-``` r
-test = survminer::pairwise_survdiff(
-  formula = survival::Surv(day, status) ~ condition, # Fit a survival object
-  data = df_isurv,
-  p.adjust.method = "bonferroni" # Use bonferroni correction
-  )
-
-test
-#> 
-#>  Pairwise comparisons using Log-Rank test 
-#> 
-#> data:  df_isurv and condition 
-#> 
-#>       WT      Drug1  
 #> Drug1 6.9e-14 -      
 #> Drug2 < 2e-16 < 2e-16
 #> 
 #> P value adjustment method: bonferroni
 ```
 
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+
+### Changing colors
+
 ``` r
-# obtain specific p-values
-test$p.value
-#>                 WT       Drug1
-#> Drug1 6.874675e-14          NA
-#> Drug2 5.465280e-24 6.73416e-24
+p <- run_bulksurv(dat, 
+                  sample_order = c("WT", "Drug1", "Drug2"),
+                  print_stats = FALSE,                   # don't print stats
+                  palette = c("black", "red", "purple"), # Custom colors
+                  legend.title = "",                     # Remove legend title
+                  legend.position = c(0.9, 0.9),         # Position legend at top right
+                  add.pval = TRUE                        # Add pvalue
+             )
+```
+
+![](man/figures/README-surv_custom-1.png)<!-- -->
+
+### Subsetting data
+
+What if you’re only interested in two conditions (eg WT vs Drug1)?
+
+``` r
+# Specify your conditions of itnerest here
+conditions_of_interest <- c("WT", "Drug1")
+
+
+dat_filt <- dat %>% 
+  # Keep rows where condition is in conditions_of_interest
+  dplyr::filter(condition %in% conditions_of_interest) 
+
+# Plot
+p_filt <- run_bulksurv(dat_filt, 
+                  sample_order = c("WT", "Drug1"), 
+                  type = "mortality",
+                  print_stats = FALSE # don't print stats
+                  )
+#> Scale for y is already present.
+#> Adding another scale for y, which will replace the existing scale.
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+
+## Other functionalities
+
+### Interfacing with PRISM
+
+GraphPad PRISM remains a favourite among biologists. To allow bulk
+survival data to be quickly converted to a PRISM-compatible format, use
+the `pivot_prism` function:
+
+``` r
+df_prism <- pivot_prism(dat, 
+                        sample_order = c("WT", "Drug1", "Drug2"))
+
+head(df_prism) # A quick look
+#> # A tibble: 6 × 4
+#> # Groups:   day [1]
+#>     day    WT Drug1 Drug2
+#>   <int> <dbl> <dbl> <dbl>
+#> 1     1     0    NA    NA
+#> 2     1     1    NA    NA
+#> 3     1     1    NA    NA
+#> 4     1     1     1    NA
+#> 5     1     1     1    NA
+#> 6     1     1     1    NA
+```
+
+``` r
+# Export to csv
+write.csv(df_prism, file = "lifespan_prism.csv")
 ```
 
 ``` r
@@ -550,7 +338,7 @@ sessionInfo()
 #> [29] fastmap_1.1.1     fansi_1.0.4       highr_0.10        broom_1.0.3      
 #> [33] xtable_1.8-4      scales_1.2.1      backports_1.4.1   abind_1.4-5      
 #> [37] farver_2.1.1      km.ci_0.5-6       gridExtra_2.3     digest_0.6.33    
-#> [41] stringi_1.7.12    rstatix_0.7.2     dplyr_1.1.2       KMsurv_0.1-5     
+#> [41] stringi_1.7.12    rstatix_0.7.2     dplyr_1.1.3       KMsurv_0.1-5     
 #> [45] grid_4.2.2        cli_3.6.1         tools_4.2.2       magrittr_2.0.3   
 #> [49] tibble_3.2.1      tidyr_1.3.0       car_3.1-1         pkgconfig_2.0.3  
 #> [53] Matrix_1.5-4.1    data.table_1.14.8 timechange_0.2.0  lubridate_1.9.1  
