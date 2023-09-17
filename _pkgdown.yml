@@ -1,6 +1,11 @@
 url: https://qhuitan.github.io/ggbulksurv/
+
+development:
+  mode: auto
+
 template:
   bootstrap: 5
+
 
 articles:
 - title: ggbulksurv
@@ -10,3 +15,4 @@ articles:
   - customizing-plots
   - interfacing-with-other-packages
   - faqs
+
