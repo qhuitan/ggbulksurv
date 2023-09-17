@@ -1,12 +1,8 @@
 url: https://qhuitan.github.io/ggbulksurv/
-
 development:
   mode: auto
-
 template:
   bootstrap: 5
-
-
 articles:
 - title: ggbulksurv
   navbar: ~
