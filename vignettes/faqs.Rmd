@@ -1,0 +1,34 @@
+---
+title: "Frequently Asked Questions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{faqs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+**1. What is censored data?**
+
+Status = 1: Dead
+
+Status = 0: Censored. 
+
+In biological terms, this is an individual that was alive at this point, but went missing from this dataset. 
+
+Some common lab examples that come to mind: 
+
+- A fly that escaped when uncapping the vial
+- A fly that was accidentally squished when transferring vials
+- A fly that was stuck in the food because you forgot to change the vial
+- A worm that crawled into the abyss that is an agar crack
+
+Basically, if an individual was alive up till that point, and died/disappeared due to a reason __other__ than natural causes, we refer to it as a `censored` datapoint. 

@@ -1,0 +1,127 @@
+---
+title: "Quick Start"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{quick-start}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+## Setup
+
+### Load libraries
+```{r setup}
+library(ggbulksurv)
+```
+
+### Read in the `csv` file
+
+If you're using Excel, you should have 4 columns of data that look like this: 
+
+condition | day | dead | censored
+----      | --  | --   | ----
+WT        | 10  | 2    | 0
+WT        | 12  | 0    | 1
+
+
+Export your Excel table as a `csv` file. Create an R project in the same folder as your `csv` file, and use the following line of code to import your `csv` file into R. 
+
+```
+dat <- read.csv("your-csv-file.csv")
+```
+
+To illustrate the functions available in this package, I've created a small fictional dataset. If you would like to follow this tutorial with this sample dataset, load it with this code: 
+
+```{r}
+# Load sample_data (the fictional dataset)
+data(sample_data)
+
+# Save this as variable dat so it's easier for us to call it
+dat <- sample_data
+```
+
+
+Let's take a quick look at `dat`: 
+
+```{r}
+head(dat)
+```
+
+As expected, `dat` has 4 columns: `condition`, `day`, `dead`, `censored`. 
+
+What conditions are present? 
+
+```{r}
+unique(dat$condition)
+```
+
+
+## run_bulksurv
+
+### Default analysis
+
+We run a default analysis using the `run_bulksurv` function: 
+
+```{r}
+p <- run_bulksurv(dat, 
+                  sample_order = c("WT", "Drug1", "Drug2"), 
+                  type = "survival")
+```
+
+The plot dimensions don't look too great. To fix it, we specify the dimensions (fig.height = 4, fig.width = 6)
+
+
+```{r fig.height=4, fig.width = 6}
+p <- run_bulksurv(dat, 
+                  sample_order = c("WT", "Drug1", "Drug2"), 
+                  type = "survival")
+```
+
+
+Note that `run_bulksurv` returns the plot as a `ggplot` object, so you can further customize it if required: 
+
+```{r fig.height=4, fig.width = 6}
+p + 
+  ggplot2::theme(legend.position = "bottom") # Change legend position to be at bottom
+```
+
+### Only print the plot
+
+By default,`run_bulksurv` prints both summary statistics and the plot. You can turn it on or off using the `print_stats` and `print_plot` parameters, respectively. 
+
+```{r fig.height=4, fig.width = 6}
+# Turning off summary statistics
+
+p1 <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"), 
+             print_stats = FALSE, # don't print stats
+             print_plot = TRUE # print plot
+             )
+```
+
+### Only print statistics
+
+```{r}
+p2 <- run_bulksurv(dat, 
+                   sample_order = c("WT", "Drug1", "Drug2"), 
+                   print_stats = TRUE,
+                   print_plot = FALSE # don't print plot
+             )
+```
+
+## Conclusion
+
+In this vignette, we explored the default `run_bulksurv` commands. For further customizations, explore these vignettes: 
+
+- [Intermediate customizations](`vignette("customizing-plots.Rmd")`). Customize colors, axis and themes using 'run_bulksurv()'. 
+- [Advanced customizations](`vignette("advanced-customizations.Rmd")`). A deep dive behind the three functions that make up run_bulksurv(), as well as interfacing with 'survminer' and 'survival' packages. 
+
+
