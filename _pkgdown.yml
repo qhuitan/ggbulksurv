@@ -2,3 +2,11 @@ url: https://qhuitan.github.io/ggbulksurv/
 template:
   bootstrap: 5
 
+articles:
+- title: ggbulksurv
+  navbar: ~
+  contents:
+  - ggbulksurv
+  - customizing-plots
+  - interfacing-with-other-packages
+  - faqs
