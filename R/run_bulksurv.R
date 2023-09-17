@@ -13,6 +13,8 @@
 #' @param type character, either "survival" (survival curve) or "mortality" (mortality curve)
 #' @param print_stats logical, whether to print median survival, log-rank
 #'  test and pairwise log-rank test with p-value corrections. Default: TRUE
+#' @param print_plot logical, whether to print the plot. Also returns plot as a
+#'    `ggplot` object for further modification. Default: TRUE
 #' @param returnData logical, whether to return plot and statistics as a list? Default: FALSE
 #' @param verbose logical, display messages on progress? Default: FALSE
 #' @param ... additional plot parameters passed to `survminer::ggsurvplot`.
@@ -33,35 +35,41 @@ run_bulksurv <- function(sample_data,
                          sample_order,
                          type = "survival",
                          print_stats = TRUE,
+                         print_plot = TRUE,
                          returnData = FALSE,
                          verbose = FALSE, ...){
 
-  if(verbose) message("1/4 Getting individual survivals")
   # Convert bulk survival to individual survival
+  if(verbose) message("1/4 Getting individual survivals")
   df_isurv <- get_indiv_surv(sample_data, sample_order)
 
-  if(verbose) message("2/4 Fitting survival object")
   # Fit survival object
+  if(verbose) message("2/4 Fitting survival object")
   surv_fit <- fit_surv(df_isurv)
 
-  if(verbose) message("3/4 Plotting survival curve")
-
   # Plot survival curve
+  if(verbose) message("3/4 Plotting survival curve")
   p <- plot_surv(fit = surv_fit, type = type,
                  data = df_isurv,
                  legend.labs = sample_order,
                  ...)
 
   if(verbose) message("4/4 Calculating summary statistics")
-  # Print summary stats
 
+  # If print_stats = TRUE, prints summary stats
   if(print_stats){
     print(summary_stats(df_isurv, type = "all"))
   }
 
-  # if returnData = TRUE, returns everything as a list
+  # If return_plot = TRUE, returns plot
+  if(print_plot){
+    print(p)
+    return(p)
+  }
+
   # else default to returnPlot and print the summary results
 
+  # if returnData = TRUE, returns everything as a list
   if(returnData == TRUE) {
 
     sum_stats <- summary_stats(df_isurv, type = "all")
@@ -70,9 +78,6 @@ run_bulksurv <- function(sample_data,
 
     return(ls)
 
-  } else {
-    return(p)
   }
-
 
 }

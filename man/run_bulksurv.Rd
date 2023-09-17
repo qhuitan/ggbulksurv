@@ -9,6 +9,7 @@ run_bulksurv(
   sample_order,
   type = "survival",
   print_stats = TRUE,
+  print_plot = TRUE,
   returnData = FALSE,
   verbose = FALSE,
   ...
@@ -23,6 +24,9 @@ run_bulksurv(
 
 \item{print_stats}{logical, whether to print median survival, log-rank
 test and pairwise log-rank test with p-value corrections. Default: TRUE}
+
+\item{print_plot}{logical, whether to print the plot. Also returns plot as a
+\code{ggplot} object for further modification. Default: TRUE}
 
 \item{returnData}{logical, whether to return plot and statistics as a list? Default: FALSE}
 
