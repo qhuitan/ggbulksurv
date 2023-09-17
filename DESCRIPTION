@@ -5,7 +5,7 @@ Authors@R:
     person("Qian Hui", "Tan", , "qianhui_tan@aya.yale.edu", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: This package provides several wrapper functions to make bulk survival analysis easier. 
-License: GPL (>= 3)
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
@@ -18,7 +18,7 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Imports: 
-    dplyr,
+    dplyr (>= 1.0.0),
     ggplot2,
     janitor,
     magrittr,
