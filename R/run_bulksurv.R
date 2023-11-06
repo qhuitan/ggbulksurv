@@ -34,7 +34,7 @@
 #'
 
 run_bulksurv <- function(sample_data,
-                         sample_order,
+                         sample_order = unique(sample_data$condition),
                          type = "survival",
                          print_stats = TRUE,
                          print_plot = TRUE,

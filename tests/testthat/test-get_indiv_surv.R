@@ -10,14 +10,14 @@ test_that("error if columns are missing", {
   expect_error(get_indiv_surv(foo))
 })
 
-test_that("error if sample_order is not equal to all unique conditions", {
-  foo <- data.frame(condition = c("WT", "TRT"),
-                    day       = c(1, 1),
-                    dead      = c(2, 3),
-                    censored  = c(1, 0))
-
-  expect_error(get_indiv_surv(foo, sample_order = c("WT")))
-})
+# test_that("error if sample_order is not equal to all unique conditions", {
+#   foo <- data.frame(condition = c("WT", "TRT"),
+#                     day       = c(1, 1),
+#                     dead      = c(2, 3),
+#                     censored  = c(1, 0))
+#
+#   expect_error(get_indiv_surv(foo, sample_order = c("WT")))
+# })
 
 
 test_that("cleaning names works", {

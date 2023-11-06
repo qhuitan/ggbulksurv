@@ -5,21 +5,33 @@
 #'
 #' @param sample_data A `data.frame` object with 4 columns. Column headers
 #'    must be ("condition", "day", "dead", "censored").
-#' @param sample_order `character`, order of conditions. Eg: c("WT", "Drug1", "Drug2")
+#' @param sample_order `character`, conditions to plot, in order.
+#'    Default: unique(sample_data$condition). To subset, use sample_order = c("WT", "Drug1")
 #' @return A `tibble` for lifespan by individual.
 #'    Contains 3 columns: `condition`, `day`, `status`.
 #'
 #' @details Status: 1 = dead, 0 = censored.
 #'
 #' @examples
+#' # Default (alphabetical order)
+#' df_isurv <- get_indiv_surv(sample_data)
+#'
+#' # Plot samples in a fixed order
 #' df_isurv <- get_indiv_surv(sample_data,
 #'                            sample_order = c("WT", "Drug1", "Drug2"))
+#'
+#' # Subset only 2 conditions
+#' df_isurv <- get_indiv_surv(sample_data,
+#'                            sample_order = c("WT", "Drug1"))
+#'
+#'
 #' @importFrom dplyr group_by select mutate full_join arrange join_by summarize ungroup
 #' @importFrom tidyr uncount
 #' @importFrom janitor clean_names
 #' @export
 
-get_indiv_surv <- function(sample_data, sample_order){
+get_indiv_surv <- function(sample_data,
+                           sample_order = unique(sample_data$condition)){
 
   # Convert all colnames to lowercase, remove trailing spaces
   sample_data <- sample_data %>% janitor::clean_names()
@@ -43,18 +55,18 @@ get_indiv_surv <- function(sample_data, sample_order){
   }
 
   # Check that sample_order and unique(sample_data$condition) are the same
-  if(
-    length(intersect(
-      unique(sample_data$condition), sample_order
-                    )
-           ) !=
-    length(union(
-      unique(sample_data$condition), sample_order
-                )
-          )
-  ) {
-    stop("`sample_order` is not equal to unique(sample_data$condition). Did you miss a condition in `sample_order`?")
-  }
+  # if(
+  #   length(intersect(
+  #     unique(sample_data$condition), sample_order
+  #                   )
+  #          ) !=
+  #   length(union(
+  #     unique(sample_data$condition), sample_order
+  #               )
+  #         )
+  # ) {
+  #   stop("`sample_order` is not equal to unique(sample_data$condition). Did you miss a condition in `sample_order`?")
+  # }
 
 
   ## -- Calculate dead -- ##
