@@ -19,11 +19,12 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The`ggbulksurv` package provides functions to facilitate bulk survival analysis, allowing users to input multiple observations per row.
+The`ggbulksurv` package provides functions to easily analyze bulk survival data from 
+_C.elegans_ and _D.melanogaster_. 
 
 **What is bulk survival analysis?** 
 
-For some model organisms (eg _C. elegans_ and _D. melanogaster_), lifespan studies are usually performed in bulk. In bulk survival analysis, researchers place a certain number of organisms in a vial, and count the number of organisms that are dead/censored on any particular day. This produces a table that looks like this, with multiple observations per row:
+For some model organisms (eg _C. elegans_ and _D. melanogaster_), lifespan studies are usually performed in bulk. In bulk survival analysis, researchers place a certain number of organisms in a vial, and count the number of organisms that are dead/censored on any particular day. This produces a "one row, multiple individuals" data format, which is not compatible with most R survival packages (eg `survival` and `survminer`): 
 
 condition | day | dead | censored
 ----      | --  | --   | ----
@@ -31,29 +32,24 @@ WT        | 10  | 2    | 0
 WT        | 12  | 0    | 2
 ...
 
-Unsurprisingly, survival analysis packages in R (eg `survival`, `survminer`) require each row to correspond to one individual. Wrangling the data manually is often a rather tedious task.
-
 **What does this package do?**
 
-`ggbulksurv` converts bulk survival data into individual observations per row, and plots a survival curve. Other functions are also available to plot mortality curves, customize colors, and to calculate relevant statistics such as median survival and log-rank tests.
+`ggbulksurv` aims to simplify bulk survival analysis by creating a default pipeline. In particular, we highlight these two features: 
+
+1. `pivot_prism()` : Easily converts lifespan data into GraphPad PRISM compatible formats
+2. `run_bulksurv()` : A one-stop command to plot default survival curves and perform statistical analysis. 
+
+Advanced users can further customize the functions within the _ggbulksurv_ pipeline.
 
 `ggbulksurv` is very much under **active development**, and any feedback and contribution are welcome through the Issues page.
 
 **What is R, and how do I get started?**
 
-Download the most recent versions of R and RStudio for the appropriate OS using the links below:
-
-- [R](https://cran.r-project.org)
-- [RStudio](https://posit.co/download/rstudio-desktop/#download)
-
-If you're new to R, I highly recommend this great resource by the Harvard Chan Bioinformatics Core. It provides a great overview of the RStudio interface, as well as R Projects that help keep your analysis organized. 
-
-[https://hbctraining.github.io/Intro-to-R-flipped/lessons/01_introR-R-and-RStudio.html](https://hbctraining.github.io/Intro-to-R-flipped/lessons/01_introR-R-and-RStudio.html)
+For complete beginners, see the Getting started with R vignette to complete setup. 
 
 **Do I need this package?**
 
 If you are conducting lifespan studies with _C.elegans_ and _D.melanogaster_ - probably. 
-
 
 ## Installation
 
@@ -95,7 +91,7 @@ Read in your `.csv` file with the following line of code:
 dat <- read.csv("your-csv-file.csv")
 ```
 
-For the purposes of this tutorial, I've created a ficitonal sample dataset, `sample_data` that we will use to illustrate the functions in this package. 
+For the purposes of this tutorial, I've created a ficitonal sample dataset, `sample_data`, that we will use to illustrate the functions in this package. 
 
 ```{r}
 data(sample_data)
@@ -157,38 +153,29 @@ p <- run_bulksurv(dat,
              )
 ```
 
-### Subsetting data
+## Subsetting data
 
 What if you're only interested in two conditions (eg WT vs Drug1)? 
 
 ```{r}
-# Specify your conditions of itnerest here
-conditions_of_interest <- c("WT", "Drug1")
-
-
-dat_filt <- dat %>% 
-  # Keep rows where condition is in conditions_of_interest
-  dplyr::filter(condition %in% conditions_of_interest) 
-
 # Plot
-p_filt <- run_bulksurv(dat_filt, 
-                  sample_order = c("WT", "Drug1"), 
-                  type = "mortality",
+p_filt <- run_bulksurv(dat, 
+                  sample_order = c("WT", "Drug1"), # specify conditions of interest
                   print_stats = FALSE # don't print stats
                   )
 ```
 
+## Interfacing with PRISM
 
-
-## Other functionalities
-
-### Interfacing with PRISM
-
-GraphPad PRISM remains a favourite among biologists. To allow bulk survival data to be quickly converted to a PRISM-compatible format, use the `pivot_prism` function: 
+To allow bulk survival data to be quickly converted to a PRISM-compatible format, use the `pivot_prism` function: 
 
 ```{r}
-df_prism <- pivot_prism(dat, 
-                        sample_order = c("WT", "Drug1", "Drug2"))
+head(dat)
+```
+
+
+```{r}
+df_prism <- pivot_prism(dat)
 
 head(df_prism) # A quick look
 ```

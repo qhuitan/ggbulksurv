@@ -8,6 +8,7 @@ articles:
   navbar: ~
   contents:
   - ggbulksurv
+  - getting-started-with-r
   - customizing-plots
   - interfacing-with-other-packages
   - faqs
