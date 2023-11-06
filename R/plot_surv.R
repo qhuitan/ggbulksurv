@@ -29,7 +29,7 @@
 #' # Plot survival curve
 #' plot_surv(fit = surv_fit, type = "survival")
 #'
-#' @importFrom ggplot2 theme element_text scale_y_continuous
+#' @importFrom ggplot2 theme element_text scale_x_continuous scale_y_continuous
 #' @importFrom scales percent
 #' @importFrom survminer ggsurvplot
 #' @importFrom methods is
@@ -92,13 +92,21 @@ plot_surv <- function(fit,
     ggplot2::theme(axis.text.x = ggplot2::element_text(face = "bold")) +
     ggplot2::theme(axis.text.y = ggplot2::element_text(face = "bold"))
 
+
   # Make sure y-axis is in percentage
   if (type == "mortality") {
     return(p +
-             ggplot2::scale_y_continuous(labels = scales::percent) +
+             ggplot2::scale_x_continuous(expand = c(0, 0)) +
+             ggplot2::scale_y_continuous(labels = scales::percent,
+                                         expand = c(0, 0) # plot start (0, 0)
+                                         ) +
              th)
   } else {
-    return(p + th)
+    return(p + th +
+          # Plot start at 0, 0
+          ggplot2::scale_x_continuous(expand = c(0, 0)) +
+          ggplot2::scale_y_continuous(expand = c(0, 0))
+           )
   }
 
 }
