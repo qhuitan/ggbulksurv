@@ -111,8 +111,7 @@ p <- run_bulksurv(sample_data,
 
 ```{r}
 p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
-             print_stats = FALSE,
-             break.x.by = 5 # x-axis: break every 5 days
+             print_stats = FALSE
              )
 ```
 
@@ -142,12 +141,16 @@ p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
 ### Putting it all together
 
 ```{r}
-p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
-             print_stats = FALSE,
-             palette = c("black", "red", "purple"), # Custom colors
-             legend.title = "",                     # Remove legend title
-             legend.position = c(0.9, 0.9),         # Position legend at top right
-             add.pval = TRUE                        # Add pvalue
+p <- run_bulksurv(sample_data, 
+                  sample_order = c("WT", "Drug1", "Drug2"),
+                  print_stats = FALSE,
+                  add.median.surv = TRUE, 
+                  palette = c("black", "red", "purple"), # Custom colors
+                  legend.title = "",                     # Remove legend title
+                  legend.position = c(0.9, 0.9),         # Position legend at top right
+                  add.pval = TRUE                       # Add pvalue
              )
+
+p
 ```
 
