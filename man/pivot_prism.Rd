@@ -4,17 +4,11 @@
 \alias{pivot_prism}
 \title{pivot_prism}
 \usage{
-pivot_prism(sample_data, sample_order)
+pivot_prism(df)
 }
 \arguments{
-\item{sample_data}{A \code{data.frame} object with 4 columns. Column headers
+\item{df}{A \code{data.frame} object with 4 columns. Column headers
 must be ("condition", "day", "dead", "censored").}
-
-\item{sample_order}{\code{character}, order of conditions. Eg: c("WT", "Drug1", "Drug2")}
-}
-\value{
-A \code{tibble} arranged by \code{day}, with one condition per column. For
-\code{sample_data} this is \code{day}, \code{WT}, \code{Drug1} and \code{Drug2}
 }
 \description{
 Converts bulk survival data (multiple observations per row) to
@@ -26,7 +20,6 @@ are filled with NA.
 Status: 1 = dead, 0 = censored.
 }
 \examples{
-df_prism <- pivot_prism(sample_data,
-            sample_order = c("WT", "Drug1", "Drug2"))
+df_prism <- pivot_prism(sample_data)
 
 }

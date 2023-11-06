@@ -23,9 +23,11 @@ Imports:
     janitor,
     magrittr,
     methods,
+    plyr,
     scales,
     survival,
     survminer,
+    tibble,
     tidyr
 Config/testthat/edition: 3
 URL: https://qhuitan.github.io/ggbulksurv/

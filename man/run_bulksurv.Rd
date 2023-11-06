@@ -11,7 +11,9 @@ run_bulksurv(
   print_stats = TRUE,
   print_plot = TRUE,
   returnData = FALSE,
-  verbose = FALSE,
+  add.conf.int = FALSE,
+  add.pval = FALSE,
+  add.median.survival = FALSE,
   p_adjust_method = "BH",
   ...
 )
@@ -31,13 +33,17 @@ test and pairwise log-rank test with p-value corrections. Default: TRUE}
 
 \item{returnData}{logical, whether to return plot and statistics as a list? Default: FALSE}
 
-\item{verbose}{logical, display messages on progress? Default: FALSE}
+\item{add.conf.int}{logical, whether to add the 95\% confidence intervals. Default: FALSE}
+
+\item{add.pval}{logical, whether to add the log-rank test adjusted p-value. Default: FALSE}
+
+\item{add.median.survival}{logicla, whether to add the median survival line. Default: FALSE}
 
 \item{p_adjust_method}{either "holm", "hochberg", "hommel", "bonferroni",
 "BH", "BY", "fdr", "none". Default: "BH". For details, see \code{?stats::p.adjust}.}
 
 \item{...}{additional plot parameters passed to \code{survminer::ggsurvplot}.
-Some useful parameters: \code{conf.int = TRUE}, \code{pval = TRUE}.}
+Some useful parameters: \code{add.conf.int = TRUE}, \code{add.pval = TRUE}, \code{add.median.survival = TRUE}.}
 }
 \value{
 A \code{ggplot2} object for the survival curve
@@ -51,9 +57,20 @@ This function performs a default survival analysis by running these steps:
 }
 }
 \examples{
-#p <- run_bulksurv(sample_data,
-#                    sample_order = c("WT", "Drug1", "Drug2"),
-#                    type = "survival")
+# Default
+p <- run_bulksurv(sample_data)
 
+
+# Customized plot
+p <- run_bulksurv(sample_data,
+                 sample_order = c("WT", "Drug1", "Drug2"),
+                 print_stats = FALSE,                   # Don't print stats
+                 add.pval = TRUE,                        # Add pvalue
+                 add.median.surv = TRUE,                # Add median survival
+                 palette = c("black", "red", "purple"), # Custom colors
+                 legend.title = "",                     # Remove legend title
+                 legend.position = c(0.9, 0.9),         # Position legend at top right
+                 break.x.by = 5                         # x-axis breaks at 5-day intervals
+                 )
 
 }

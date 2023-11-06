@@ -73,7 +73,8 @@ plot_surv <- function(fit,
   }
 
   # Plot with survminer, return ggplot object
-  p <- survminer::ggsurvplot(
+  suppressMessages({ # suppress the replace scale messages
+    p <- survminer::ggsurvplot(
     fit,
     fun = fun,
     legend.title = legend.title,
@@ -108,5 +109,5 @@ plot_surv <- function(fit,
           ggplot2::scale_y_continuous(expand = c(0, 0))
            )
   }
-
+  })
 }

@@ -15,20 +15,33 @@
 #'  test and pairwise log-rank test with p-value corrections. Default: TRUE
 #' @param print_plot logical, whether to print the plot. Also returns plot as a
 #'    `ggplot` object for further modification. Default: TRUE
+#' @param add.median.survival logicla, whether to add the median survival line. Default: FALSE
+#' @param add.conf.int logical, whether to add the 95% confidence intervals. Default: FALSE
+#' @param add.pval logical, whether to add the log-rank test adjusted p-value. Default: FALSE
 #' @param p_adjust_method either "holm", "hochberg", "hommel", "bonferroni",
 #'   "BH", "BY", "fdr", "none". Default: "BH". For details, see `?stats::p.adjust`.
 #' @param returnData logical, whether to return plot and statistics as a list? Default: FALSE
-#' @param verbose logical, display messages on progress? Default: FALSE
 #' @param ... additional plot parameters passed to `survminer::ggsurvplot`.
-#'  Some useful parameters: `conf.int = TRUE`, `pval = TRUE`.
+#'  Some useful parameters: `add.conf.int = TRUE`, `add.pval = TRUE`, `add.median.survival = TRUE`.
 #'
 #' @return A `ggplot2` object for the survival curve
 #'
 #' @examples
-#' #p <- run_bulksurv(sample_data,
-#' #                    sample_order = c("WT", "Drug1", "Drug2"),
-#' #                    type = "survival")
+#' # Default
+#' p <- run_bulksurv(sample_data)
 #'
+#'
+#' # Customized plot
+#' p <- run_bulksurv(sample_data,
+#'                  sample_order = c("WT", "Drug1", "Drug2"),
+#'                  print_stats = FALSE,                   # Don't print stats
+#'                  add.pval = TRUE,                        # Add pvalue
+#'                  add.median.surv = TRUE,                # Add median survival
+#'                  palette = c("black", "red", "purple"), # Custom colors
+#'                  legend.title = "",                     # Remove legend title
+#'                  legend.position = c(0.9, 0.9),         # Position legend at top right
+#'                  break.x.by = 5                         # x-axis breaks at 5-day intervals
+#'                  )
 #'
 #' @export
 #'
@@ -39,27 +52,29 @@ run_bulksurv <- function(sample_data,
                          print_stats = TRUE,
                          print_plot = TRUE,
                          returnData = FALSE,
-                         verbose = FALSE,
+                         add.conf.int = FALSE,
+                         add.pval = FALSE,
+                         add.median.survival = FALSE,
                          p_adjust_method = "BH",
                          ...){
 
   # Convert bulk survival to individual survival
-  if(verbose) message("1/4 Getting individual survivals")
+
   df_isurv <- get_indiv_surv(sample_data, sample_order)
 
   # Fit survival object
-  if(verbose) message("2/4 Fitting survival object")
+
   surv_fit <- fit_surv(df_isurv)
 
   # Plot survival curve
-  if(verbose) message("3/4 Plotting survival curve")
+
   p <- plot_surv(fit = surv_fit, type = type,
                  data = df_isurv,
                  legend.labs = sample_order,
                  p_adjust_method = p_adjust_method,
                  ...)
 
-  if(verbose) message("4/4 Calculating summary statistics")
+
 
   # If print_stats = TRUE, prints summary stats
   if(print_stats){
