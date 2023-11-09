@@ -33,16 +33,17 @@
 get_indiv_surv <- function(sample_data,
                            sample_order = unique(sample_data$condition)){
 
-  # Convert all colnames to lowercase, remove trailing spaces
-  sample_data <- sample_data %>% janitor::clean_names()
 
   ## ---- Error handling ---- ##
-  # make condition into an argument
+  # Check that sample_data is of type data.frame
 
   if(!is.data.frame(sample_data)) {
     stop(paste0("`sample_data` must have type `data.frame` instead of ",
                 class(sample_data)))
   }
+
+  # Convert all colnames to lowercase, remove trailing spaces
+  sample_data <- sample_data %>% janitor::clean_names()
 
 
   # Check that all 5 columns are present
@@ -50,7 +51,7 @@ get_indiv_surv <- function(sample_data,
   expected_colnames <- c("condition", "day", "dead", "censored")
 
   if (sum(input_colnames %in% expected_colnames) < length(expected_colnames)) {
-    stop("Missing column(s) in `sample_data`. Expected colnames: `condition`, `day`, `dead`, `censored`.")
+    stop("Missing column(s) in input. Expected colnames: `condition`, `day`, `dead`, `censored`.")
 
   }
 
