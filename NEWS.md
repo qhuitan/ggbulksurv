@@ -1,3 +1,5 @@
+# ggbulksurv 0.2.0
+
 # ggbulksurv 0.1.0
 
 ## Enhancements
