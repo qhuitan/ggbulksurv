@@ -44,6 +44,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/getting-started-with-r.html">getting-started-with-r</a>
     <a class="dropdown-item" href="../articles/customizing-plots.html">Customizing Plots</a>
     <a class="dropdown-item" href="../articles/interfacing-with-other-packages.html">Interfacing with other survival packages</a>
     <a class="dropdown-item" href="../articles/faqs.html">Frequently Asked Questions</a>
@@ -183,8 +184,7 @@ hexadecimal value (“#80080”):</p>
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">sample_data</span>, sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
-<span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>             break.x.by <span class="op">=</span> <span class="fl">5</span> <span class="co"># x-axis: break every 5 days</span></span>
+<span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>             <span class="op">)</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
@@ -217,14 +217,20 @@ hexadecimal value (“#80080”):</p>
 <h3 id="putting-it-all-together">Putting it all together<a class="anchor" aria-label="anchor" href="#putting-it-all-together"></a>
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">sample_data</span>, sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
-<span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>             palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"purple"</span><span class="op">)</span>, <span class="co"># Custom colors</span></span>
-<span>             legend.title <span class="op">=</span> <span class="st">""</span>,                     <span class="co"># Remove legend title</span></span>
-<span>             legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span>,         <span class="co"># Position legend at top right</span></span>
-<span>             add.pval <span class="op">=</span> <span class="cn">TRUE</span>                        <span class="co"># Add pvalue</span></span>
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">sample_data</span>, </span>
+<span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
+<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                  add.median.surv <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                  palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"purple"</span><span class="op">)</span>, <span class="co"># Custom colors</span></span>
+<span>                  legend.title <span class="op">=</span> <span class="st">""</span>,                     <span class="co"># Remove legend title</span></span>
+<span>                  legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span>,         <span class="co"># Position legend at top right</span></span>
+<span>                  add.pval <span class="op">=</span> <span class="cn">TRUE</span>                       <span class="co"># Add pvalue</span></span>
 <span>             <span class="op">)</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">p</span></span></code></pre></div>
+<p><img src="customizing-plots_files/figure-html/unnamed-chunk-10-2.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

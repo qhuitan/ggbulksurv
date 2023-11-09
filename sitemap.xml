@@ -16,6 +16,9 @@
     <loc>https://qhuitan.github.io/ggbulksurv/articles/faqs.html</loc>
   </url>
   <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/getting-started-with-r.html</loc>
+  </url>
+  <url>
     <loc>https://qhuitan.github.io/ggbulksurv/articles/ggbulksurv.html</loc>
   </url>
   <url>
@@ -46,6 +49,9 @@
     <loc>https://qhuitan.github.io/ggbulksurv/reference/pipe.html</loc>
   </url>
   <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/reference/pivot_day.html</loc>
+  </url>
+  <url>
     <loc>https://qhuitan.github.io/ggbulksurv/reference/pivot_prism.html</loc>
   </url>
   <url>
@@ -56,6 +62,9 @@
   </url>
   <url>
     <loc>https://qhuitan.github.io/ggbulksurv/reference/sample_data.html</loc>
+  </url>
+  <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/reference/sum_vials.html</loc>
   </url>
   <url>
     <loc>https://qhuitan.github.io/ggbulksurv/reference/summary_stats.html</loc>
