@@ -1,13 +1,19 @@
+# ggbulksurv 0.2.1
+
+## Bug fixes
+* Fixed bug in `run_bulksurv()` - `returnData` now returns data as a list
+
+## Enhancements
+* `returnData = TRUE` in `run_bulksurv()` returns pivoted data as a list item
+
 # ggbulksurv 0.2.0
 
 ## Bug fixes
 * Fixed bug in `pivot_prism()` that erroneously expanded the first column
-* Fixed bug in `run_bulksurv()` - `returnData` now returns data as a list
 
 ## Enhancements
 * `run_bulksurv()` now supports subsetting via the `sample_order` parameter. `run_bulksurv(df)` now runs a default analysis for all conditions.
 * Survival plots now start at (0,0)
-* `returnData = TRUE` in `run_bulksurv()` returns pivoted data as a list item
 
 ## What's new
 * Added a "Getting started with R" vignette for beginner R users
