@@ -7,6 +7,7 @@
 ## Enhancements
 * `run_bulksurv()` now supports subsetting via the `sample_order` parameter. `run_bulksurv(df)` now runs a default analysis for all conditions.
 * Survival plots now start at (0,0)
+* `returnData = TRUE` in `run_bulksurv()` returns pivoted data as a list item
 
 ## What's new
 * Added a "Getting started with R" vignette for beginner R users

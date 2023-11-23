@@ -80,8 +80,11 @@ run_bulksurv <- function(sample_data,
     sum_stats <- summary_stats(df_isurv,
                                type = "all",
                                p_adjust_method = p_adjust_method)
-    ls <- c(list(plot = p),
-            sum_stats)
+    ls <- c(
+      data = list(df_isurv), # return pivoted data
+      list(plot = p), # return ggplot object
+      sum_stats # return summary statss
+      )
 
     return(ls)
 
