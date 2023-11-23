@@ -70,6 +70,9 @@ run_bulksurv <- function(sample_data,
 
   p <- plot_surv(fit = surv_fit, type = type,
                  data = df_isurv,
+                 add.median.survival = add.median.survival,
+                 add.pval = add.pval,
+                 add.conf.int = add.conf.int,
                  legend.labs = sample_order,
                  p_adjust_method = p_adjust_method,
                  ...)
