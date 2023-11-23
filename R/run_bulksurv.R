@@ -36,7 +36,7 @@
 #'                  sample_order = c("WT", "Drug1", "Drug2"),
 #'                  print_stats = FALSE,                   # Don't print stats
 #'                  add.pval = TRUE,                        # Add pvalue
-#'                  add.median.surv = TRUE,                # Add median survival
+#'                  add.median.survival = TRUE,                # Add median survival
 #'                  palette = c("black", "red", "purple"), # Custom colors
 #'                  legend.title = "",                     # Remove legend title
 #'                  legend.position = c(0.9, 0.9),         # Position legend at top right
@@ -74,6 +74,18 @@ run_bulksurv <- function(sample_data,
                  p_adjust_method = p_adjust_method,
                  ...)
 
+  # if returnData = TRUE, returns everything as a list
+  if(returnData == TRUE) {
+
+    sum_stats <- summary_stats(df_isurv,
+                               type = "all",
+                               p_adjust_method = p_adjust_method)
+    ls <- c(list(plot = p),
+            sum_stats)
+
+    return(ls)
+
+  }
 
 
   # If print_stats = TRUE, prints summary stats
@@ -87,21 +99,6 @@ run_bulksurv <- function(sample_data,
   if(print_plot){
     print(p)
     return(p)
-  }
-
-  # else default to returnPlot and print the summary results
-
-  # if returnData = TRUE, returns everything as a list
-  if(returnData == TRUE) {
-
-    sum_stats <- summary_stats(df_isurv,
-                               type = "all",
-                               p_adjust_method = p_adjust_method)
-    ls <- c(list(plot = p),
-            sum_stats)
-
-    return(ls)
-
   }
 
 }

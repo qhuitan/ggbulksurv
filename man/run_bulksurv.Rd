@@ -66,7 +66,7 @@ p <- run_bulksurv(sample_data,
                  sample_order = c("WT", "Drug1", "Drug2"),
                  print_stats = FALSE,                   # Don't print stats
                  add.pval = TRUE,                        # Add pvalue
-                 add.median.surv = TRUE,                # Add median survival
+                 add.median.survival = TRUE,                # Add median survival
                  palette = c("black", "red", "purple"), # Custom colors
                  legend.title = "",                     # Remove legend title
                  legend.position = c(0.9, 0.9),         # Position legend at top right
