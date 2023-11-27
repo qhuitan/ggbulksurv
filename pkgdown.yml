@@ -2,12 +2,15 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  basic-plot: basic-plot.html
+  convert-prism: convert-prism.html
   customizing-plots: customizing-plots.html
   faqs: faqs.html
   getting-started-with-r: getting-started-with-r.html
   ggbulksurv: ggbulksurv.html
+  installation: installation.html
   interfacing-with-other-packages: interfacing-with-other-packages.html
-last_built: 2023-11-23T06:37Z
+last_built: 2023-11-27T11:55Z
 urls:
   reference: https://qhuitan.github.io/ggbulksurv/reference
   article: https://qhuitan.github.io/ggbulksurv/articles

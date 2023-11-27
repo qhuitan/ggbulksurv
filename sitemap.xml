@@ -10,6 +10,12 @@
     <loc>https://qhuitan.github.io/ggbulksurv/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/basic-plot.html</loc>
+  </url>
+  <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/convert-prism.html</loc>
+  </url>
+  <url>
     <loc>https://qhuitan.github.io/ggbulksurv/articles/customizing-plots.html</loc>
   </url>
   <url>
@@ -23,6 +29,9 @@
   </url>
   <url>
     <loc>https://qhuitan.github.io/ggbulksurv/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://qhuitan.github.io/ggbulksurv/articles/installation.html</loc>
   </url>
   <url>
     <loc>https://qhuitan.github.io/ggbulksurv/articles/interfacing-with-other-packages.html</loc>
