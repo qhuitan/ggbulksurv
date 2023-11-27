@@ -1,0 +1,59 @@
+---
+title: "Convert to PRISM"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{convert-prism}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+GraphPad PRISM requires a very specific input format for lifespan analysis. In this tutorial, we show how the `pivot_prism()` function can be used to easily convert data for PRISM. 
+
+## Setup
+
+```{r setup}
+# Load libraries
+library(ggbulksurv)
+```
+
+
+```{r}
+# Load data
+data(sample_data)
+dat <- sample_data # using the fictional dataset
+
+# Load your data for your analysis
+# dat <- read.csv("your-sample-data.csv")
+```
+
+What conditions are present? Use this to check for any accidental typos: 
+
+```{r}
+unique(dat$condition) 
+```
+
+## Pivot to PRISM
+```{r}
+df_prism <- pivot_prism(dat)
+
+head(df_prism) # quick look
+```
+
+
+## Export
+That looks great! Let's export it: 
+
+```{r eval = FALSE}
+write.csv(df_prism, file = "df_prism.csv")
+```
+
+You should see a `df_prism.csv` file appear in your folder. Copy and paste this into GraphPad PRISM, and run a survival analysis in PRISM. 
+
+

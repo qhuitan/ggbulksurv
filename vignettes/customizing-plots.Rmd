@@ -10,26 +10,73 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.height = 4,
+  fig.width = 6
 )
 
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+
+`ggbulksurv` offers several customization options:
+
+- Subsetting data
+- Colors
+- Legend title and position
+- p-value annotations
+
+This tutorial will go through several most commonly used customizations. To see all possible options, type `?run_bulksurv()` in the console. 
+
+
 ```{r setup}
 library(ggbulksurv)
 ```
 
-This vignette teaches you how to further customize your survival plots. 
 
-We'll start by discussing how to change the colors of the plot, using either custom colors, RColorBrewer palettes or journal colors. 
+```{r}
+# Load sample_data (the fictional dataset)
+data(sample_data)
+dat <- sample_data
+```
 
-We'll then discuss how to customize the legend positions and titles. 
+## The default
 
-Lastly, we finish off by adding the 50% median survival line. 
+For comparison, here's the default plot: 
+
+```{r}
+p <- run_bulksurv(dat,
+                  print_stats = FALSE)
+```
 
 
-## Color palettes
+## A customized survival curve
+
+Here is an example of a highly customized survival curve: 
+
+```{r}
+p <- run_bulksurv(dat, 
+                  sample_order = c("WT", "Drug1", "Drug2"),  # Custom order
+                  print_stats = FALSE,                   # Don't print stats
+                  palette = c("black", "red", "purple"), # Custom colors
+                  legend.title = "",                     # Remove legend title ("Condition")
+                  legend.position = c(0.9, 0.9),         # Position legend at top right
+                  add.pval = TRUE                       # Add pvalue
+             )
+```
+
+## Subsetting data
+
+To compare fewer conditions, change the `sample_order` parameter:
+
+```{r}
+p <- run_bulksurv(sample_data, 
+                  sample_order = c("Drug1", "WT"), # Compare WT vs Drug1, invert order
+                  print_stats = FALSE)
+```
+
+
+## Changing colors
 
 ### Brewer palettes
 
@@ -44,7 +91,6 @@ p <- run_bulksurv(sample_data,
              )
 ```
 
-
 ### Journal palettes
 
 [ggsci](https://nanx.me/ggsci/index.html) provides a collection of palettes inspired by scientific publishing groups. These colors can also be used in our plots: 
@@ -58,8 +104,7 @@ p <- run_bulksurv(sample_data,
              )
 ```
 
-
-### Specific colors
+### Custom colors (name, hexadecimal)
 
 We can also specify colors, either by name ("black", "blue"), or by hexadecimal value ("#80080"): 
 
@@ -73,27 +118,37 @@ p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
 
 ## Legends
 
-### Removing legend title
+### Remove legend title
 
 ```{r}
-p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+p <- run_bulksurv(sample_data, 
+                  sample_order = c("WT", "Drug1", "Drug2"),
              print_stats = FALSE,
              legend.title = "" # Remove the legend title
              )
 ```
 
+### Specify legend position
 
-### Specifying legend position
 Specifying a position (`right`, `left`, `bottom` or `top`) with `legend.position`:
 
 ```{r}
 p <- run_bulksurv(sample_data, 
                   sample_order = c("WT", "Drug1", "Drug2"),
              print_stats = FALSE,
-             legend.position = "bottom")
+             legend.position = "bottom" # Set legend at bottom
+             )
 ```
 
-### Specific legend coordinates
+Note that `run_bulksurv` returns the plot as a `ggplot` object, so you can further customize it if required: 
+
+```{r fig.height=4, fig.width = 6}
+p + 
+  ggplot2::theme(legend.position = "bottom") # Change legend position to be at bottom
+```
+
+
+### Specify legend coordinates
 
 Specific coordinates can also be used. For bottom left, use `legend.position = c(0,0)`; for top right, use `legend.position = c(1,1)`.
 
@@ -104,53 +159,64 @@ p <- run_bulksurv(sample_data,
                   legend.position = c(0.9, 0.9))
 ```
 
+## P-value and median survival line
 
-## Axis customizations
+To add the median survival line and pvalues, pass the following parameters within `run_bulksurv()`:
 
-### Change the x-axis breaks
+- median survival line: `add.median.survival = TRUE"`
+- pvalue annotation: `add.pval = TRUE`
 
-```{r}
-p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
-             print_stats = FALSE
-             )
-```
-
-## Annotations
-
-### Adding pvalue and 50% median survival line
-
-```{r}
-p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
-             print_stats = FALSE,
-             add.median.survival = TRUE, # Add median survival
-             add.pval = TRUE # Add pvalue
-             )
-```
-
-### Add confidence interval
-
-```{r custom-addci}
-p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
-             print_stats = FALSE,
-             add.conf.int = TRUE
-             )
-```
-
-
-
-### Putting it all together
+To change the p-value adjustment method, use `p_adjust_method`. 
 
 ```{r}
 p <- run_bulksurv(sample_data, 
                   sample_order = c("WT", "Drug1", "Drug2"),
-                  print_stats = FALSE,
-                  add.median.surv = TRUE, 
-                  palette = c("black", "red", "purple"), # Custom colors
-                  legend.title = "",                     # Remove legend title
-                  legend.position = c(0.9, 0.9),         # Position legend at top right
-                  add.pval = TRUE                       # Add pvalue
+             print_stats = FALSE,
+             add.median.survival = TRUE, # Add median survival
+             p_adjust_method = "bonferroni", # Change padj method
+             add.pval = TRUE             # Add pvalue
              )
-
-p
 ```
+
+## Adding confidence intervals
+
+```{r custom-addci}
+p <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"),
+             print_stats = FALSE,
+             add.conf.int = TRUE  # Add confidence interval
+             )
+```
+
+## Returning data
+
+By default, `run_bulksurv()` returns a `ggplot2` object for easy plot customization. 
+
+If you want to return the pivoted data, summary statistics and the plot object, use `returnData = TRUE`. This will return all data and plots as a `list` object. 
+
+```{r}
+df_survival <- run_bulksurv(dat, returnData = TRUE)
+
+names(df_survival)
+```
+
+Accessing the individual elements: 
+```{r}
+head(df_survival$data) # pivoted data
+```
+
+
+```{r}
+head(df_survival$median_survival) # median survival
+```
+
+
+```{r}
+head(df_survival$logrank) # logrank test
+```
+
+
+```{r}
+head(df_survival$pairwise) # pairwise logrank with p-value correction
+```
+
 

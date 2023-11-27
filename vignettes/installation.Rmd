@@ -1,0 +1,57 @@
+---
+title: "Installing `ggbulksurv`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{installation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+## Dependencies
+
+First, install CRAN dependencies: 
+
+``` r
+# CRAN dependencies
+install.packages(c("dplyr", "ggplot2", "janitor", "magrittr", "scales", "tidyr"))
+```
+
+Next, install Bioconductor dependencies. 
+
+``` r
+# Bioconductor dependencies
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("survival", "survminer"))
+```
+
+## Installation
+
+Lastly, install the development version of `ggbulksurv` from [GitHub](https://github.com/) with:
+
+``` r
+install.packages("devtools")
+```
+- For Mac users: If the above code throws an error, you may need to install Xcode before installing `devtools`. The easiest way to do this is via [Homebrew](https://brew.sh), a convenient package manager which automatically installs `Xcode` as well. 
+
+
+```r
+devtools::install_github("qhuitan/ggbulksurv")
+```
+
+
+
+### Additional notes for the beginner R user
+
+To install dependencies, copy each chunk of code above (in light grey) and paste them in the R console (bottom left panel). Upon pressing enter, you should see the installation begin. 
+
+

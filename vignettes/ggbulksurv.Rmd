@@ -1,5 +1,5 @@
 ---
-title: "Quick Start"
+title: "ggbulksurv v0.2.0"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{quick-start}
@@ -16,10 +16,28 @@ knitr::opts_chunk$set(
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+**What does this package do?**
+
+`ggbulksurv` aims to simplify bulk survival analysis by creating a default pipeline for _C.elegans_ and _D.melanogaster_. In particular, we highlight these two features: 
+
+1. `pivot_prism()` : Easily converts lifespan data into GraphPad PRISM compatible formats
+2. `run_bulksurv()` : A one-stop command to plot default survival curves and perform statistical analysis. 
+
+`ggbulksurv` is very much under **active development**, and any feedback and contributions are welcome through the Issues page.
+
+**Do I need this package?**
+
+If you are conducting lifespan studies with _C.elegans_ and _D.melanogaster_ - probably. 
+
+**What is R, and how do I get started?**
+
+For complete beginners to R, see `vignette("getting-started-with-r")` to complete setup. 
+...
+
 ## Setup
 
-### Load libraries
 ```{r setup}
+## Load libraries
 library(ggbulksurv)
 ```
 
@@ -39,8 +57,6 @@ Export your Excel table as a `csv` file. Create an R project in the same folder 
 dat <- read.csv("your-csv-file.csv")
 ```
 
-To illustrate the functions available in this package, I've created a small fictional dataset. If you would like to follow this tutorial with this sample dataset, load it with this code: 
-
 ```{r}
 # Load sample_data (the fictional dataset)
 data(sample_data)
@@ -49,79 +65,29 @@ data(sample_data)
 dat <- sample_data
 ```
 
+## Convert to PRISM
 
-Let's take a quick look at `dat`: 
-
-```{r}
-head(dat)
-```
-
-As expected, `dat` has 4 columns: `condition`, `day`, `dead`, `censored`. 
-
-What conditions are present? 
+Use the `pivot_prism()` function to convert data for GraphPad PRISM. 
 
 ```{r}
-unique(dat$condition)
+df_prism <- pivot_prism(dat) # pivot the data
+
+head(df_prism) # quick preview
 ```
 
+```{r eval = FALSE}
+write.csv(df_prism, file = "df_prism.csv", row.names = FALSE) # export
+```
+
+You can import `df_prism.csv` into GraphPad PRISM for further analysis. 
 
 ## run_bulksurv
-
-### Default analysis
 
 We run a default analysis using the `run_bulksurv` function: 
 
 ```{r}
-p <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1", "Drug2"), 
-                  type = "survival")
+p <- run_bulksurv(dat)
 ```
 
-The plot dimensions don't look too great. To fix it, we specify the dimensions (fig.height = 4, fig.width = 6)
-
-
-```{r fig.height=4, fig.width = 6}
-p <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1", "Drug2"), 
-                  type = "survival")
-```
-
-
-Note that `run_bulksurv` returns the plot as a `ggplot` object, so you can further customize it if required: 
-
-```{r fig.height=4, fig.width = 6}
-p + 
-  ggplot2::theme(legend.position = "bottom") # Change legend position to be at bottom
-```
-
-### Only print the plot
-
-By default,`run_bulksurv` prints both summary statistics and the plot. You can turn it on or off using the `print_stats` and `print_plot` parameters, respectively. 
-
-```{r fig.height=4, fig.width = 6}
-# Turning off summary statistics
-
-p1 <- run_bulksurv(sample_data, sample_order = c("WT", "Drug1", "Drug2"), 
-             print_stats = FALSE, # don't print stats
-             print_plot = TRUE # print plot
-             )
-```
-
-### Only print statistics
-
-```{r}
-p2 <- run_bulksurv(dat, 
-                   sample_order = c("WT", "Drug1", "Drug2"), 
-                   print_stats = TRUE,
-                   print_plot = FALSE # don't print plot
-             )
-```
-
-## Conclusion
-
-In this vignette, we explored the default `run_bulksurv` commands. For further customizations, explore these vignettes: 
-
-- [Intermediate customizations](`vignette("customizing-plots.Rmd")`). Customize colors, axis and themes using 'run_bulksurv()'. 
-- [Advanced customizations](`vignette("advanced-customizations.Rmd")`). A deep dive behind the three functions that make up run_bulksurv(), as well as interfacing with 'survminer' and 'survival' packages. 
 
 

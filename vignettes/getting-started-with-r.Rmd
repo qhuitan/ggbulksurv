@@ -1,5 +1,5 @@
 ---
-title: "getting-started-with-r"
+title: "Getting started with R"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{getting-started-with-r}
@@ -12,11 +12,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
-# Getting started with R
-
-This vignette is for _complete beginners_ to R. If you know how to use R and are looking to customize your plots further, see `vignette("customizing-plots")`.
+This vignette is written for _complete beginners_ to R. For users familiar with R and RStudio, skip ahead to the "Basic Plots" vignette.
 
 ## 1. Download R and RStudio
 
@@ -27,26 +27,37 @@ Download the most recent versions of R and RStudio for the appropriate OS using 
 
 ## 2. Create a new R Project
 
-Create a new folder in a place where you can easily find it again. Put your lifespan study csv file in here. In this tutorial, my file is called `sample_data.csv`. 
+An R Project file defines the root folder, ie, where R starts searching for your files. For best practice, follow the "one folder, one R project" rule. 
 
-Your csv file should have 4 columns: condition, day, dead, censored. Here is an example: 
+1. Create a new folder to store your files. For example, `"Desktop/drug_lifespan"`. 
+
+2. Create your lifespan study in Excel, export it to `csv`, and paste it in the same `Desktop/drug_lifespan"` folder. Your `csv` file should have 4 columns: `condition`, `day`, `dead`, `censored`. You can also add additional columns (eg plate/vial). Here is an example: 
 
 condition | day | dead | censored
 ----      | --  | --   | ----
 WT        | 10  | 2    | 0
 WT        | 12  | 0    | 2
 
-Open RStudio. Click on File -> New Project -> Existing folder. Navigate to the folder that contains your lifespan csv file, and click "Create". RStudio should now open in a new window, and you should see your lifespan study csv file in the bottom right Files pane. 
+3. To create an R Project, open RStudio. Click on `File` -> `New Project` -> `Existing folder`. Navigate to the "`Desktop/drug_lifespan`" folder, and click "Create". 
 
-Create a new Quarto markdown file. Click on File -> New File -> Quarto Document. 
+4. RStudio should now open in a new window, and you should see your lifespan study `csv` file in the bottom right Files pane. 
 
-## 3. A quick guide to RStudio:
+## 3. Quick guide to RStudio interface
 
 __The user interface__
 
 - insert image: console, main code, environment, files panel image -
 
 __Code chunk vs text__
+
+## 4. Quick guide to Quarto markdown
+
+Analysis in R is performed in files known as markdown files. These enable you to fuse code chunks (calculations) with text chunks (explainations). They come in two similar flavours - Quarto markdown and R markdown. For the purposes of this tutorial, we will be using the Quarto markdown file. 
+
+### Create a Quarto markdown file
+1. Create a new Quarto markdown file. Click on `File` -> `New File` -> `Quarto Document`. 
+
+### Code chunks vs text chunks
 
 Quarto documents consist of two parts - code chunks vs text chunks. 
 
@@ -62,102 +73,56 @@ And here is some text:
 
 _What's the difference?_ 
 
-Code chunks are _evaluated_ - meaning that any calculations will be run. For example, if you type `=1+1` in Excel, Excel automatically sums them up and returns the answer, 2. In contrast, if you type `=1+1` in Microsoft Word, it will remain as text. 
+A simple analogy - code chunks are the Microsoft Excel of R, while text chunks are the Microsoft Word of R. 
 
-A simple analogy - code chunks are the Microsoft Excel of R, while text chunks are the Microsoft Word of R. To run code chunks, click on the tiny green triangle pointing to the right at the top right of the code chunk. Code chunks have a different colour, and are delineated by the '```{r}' header. Everything within a code chunk is run and evaluated. The only exceptions are comments, which start with a #: 
+For example, if you type `=1+1` in Excel, Excel automatically sums them up and returns the answer, 2. In contrast, if you type `=1+1` in Microsoft Word, it will remain as text. 
+
+Code chunks are _evaluated_ - meaning that any calculations inside the chunk will be run. To run code chunks, click on the tiny green triangle pointing to the right at the top right of the code chunk. Code chunks have a different colour, and are delineated by the '```{r}' header. Everything within a code chunk is run and evaluated. The only exceptions are comments, which start with a `#`: 
+
 
 ```{r}
-# This is a comment: Let's try adding in R
+# This is a comment: Let's try addition in R
 1 + 1 
 ```
 
 
 ```{r eval = FALSE}
 # Not run - this will return an error. 
-This is not a comment: Let's try adding in R
+This is not a comment: Let's try addition in R
 
 1 + 1
 ```
+
 
 The tldr: code chunks are for code, while text chunks are for text. Describe what you are analyzing and describe your conditions that you are testing. This will help your reader, and also your future self when you revisit this analysis several years down the road. 
 
 For example, I will begin by describing my fictional dataset: 
 
 ```
-This dataset contains lifespan data from 50 _C.elegans_ worms.
+This dataset contains lifespan data from 50 _C.elegans_ worms in 3 different conditions. 
 
 Summary of conditions: 
 
 condition | description
+--------- | ------------------------------------------
 WT        | 50 N2 worms
-Drug1     | N2 worms treated with fictional Drug X at 50 μM
-Drug2     | N2 worms treated with fictional Drug Y at 50 μM
+Drug1     | 50 N2 worms treated with fictional Drug X at 50 μM
+Drug2     | 50 N2 worms treated with fictional Drug Y at 50 μM
 
 ```
 
-## 3. Start your analysis
+## 5. Start your analysis
 
-First, we load libraries. Libraries are packages that contain functions that you need to run. Copy and paste these chunks of code into your Quarto Document. 
+First, we load libraries. Libraries are packages that contain functions that you need to run. Copy and paste the following line of code into your Quarto Document. 
 
 ```{r}
 library(ggbulksurv)
 ```
 
-Next, read in your csv file: 
-
-```{r}
-df <- read.csv("sample_data.csv")
-
-head(df) # quick preview
-```
-
-## 4. Run a default analysis: 
-
-```{r}
-p <- run_bulksurv(df)
-
-p
-```
 
 
-That's it! Congrats on getting started with R. If you want to further customize your plots, see `vignette("customizing-plots")`
+## 6. Further reading
 
-A preview of the cool stuff you can do: 
-
-```{r}
-p <- run_bulksurv(df, 
-                  sample_order = c("WT", "Drug1", "Drug2"),
-                  print_stats = FALSE,
-                  add.median.surv = TRUE, 
-                  palette = c("black", "red", "purple"), # Custom colors
-                  legend.title = "",                     # Remove legend title
-                  legend.position = c(0.9, 0.9),         # Position legend at top right
-                  add.pval = TRUE                       # Add pvalue
-             )
-
-p
-```
-
-
-## 5. Converting to PRISM
-
-If you're converting this to PRISM, use this command
-
-```{r eval = FALSE}
-df_prism <- pivot_prism(df)
-write.csv(df_prism, file = "df_prism.csv")
-```
-
-You should see a `df_prism.csv` file appear in your folder. Copy and paste this into GraphPad PRISM, and run a survival analysis in PRISM. 
-
-
-## Further reading
-
-If you're new to R, I highly recommend this great resource by the Harvard Chan Bioinformatics Core. It provides a great overview of the RStudio interface, as well as R Projects that help keep your analysis organized. 
+If you're new to R, I highly recommend the following resource by the Harvard Chan Bioinformatics Core. It provides a great overview of the RStudio interface, as well as R Projects that help keep your analysis organized. 
 [https://hbctraining.github.io/Intro-to-R-flipped/lessons/01_introR-R-and-RStudio.html](https://hbctraining.github.io/Intro-to-R-flipped/lessons/01_introR-R-and-RStudio.html)
-
-
-```{r}
-sessionInfo()
-```
 

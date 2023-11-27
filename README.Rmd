@@ -19,33 +19,23 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The`ggbulksurv` package provides functions to easily analyze bulk survival data from 
-_C.elegans_ and _D.melanogaster_. 
-
-**What is bulk survival analysis?** 
-
-For some model organisms (eg _C. elegans_ and _D. melanogaster_), lifespan studies are usually performed in bulk. In bulk survival analysis, researchers place a certain number of organisms in a vial, and count the number of organisms that are dead/censored on any particular day. This produces a "one row, multiple individuals" data format, which is not compatible with most R survival packages (eg `survival` and `survminer`): 
-
-condition | day | dead | censored
-----      | --  | --   | ----
-WT        | 10  | 2    | 0
-WT        | 12  | 0    | 2
-...
-
 **What does this package do?**
 
-`ggbulksurv` aims to simplify bulk survival analysis by creating a default pipeline. In particular, we highlight these two features: 
+`ggbulksurv` aims to simplify survival analysis for _C.elegans_ and _D.melanogaster_ by creating a user-friendly pipeline. Lifespan data for these organisms typically look like this, which is incompatible with current packages:
 
-1. `pivot_prism()` : Easily converts lifespan data into GraphPad PRISM compatible formats
-2. `run_bulksurv()` : A one-stop command to plot default survival curves and perform statistical analysis. 
+condition | day | dead | censored
+--------  | --- | ---- | --------
+WT        | 10  | 4    | 2
+Drug1     | 10  | 9    | 0
+...       | ... | ...  | ....
 
-Advanced users can further customize the functions within the _ggbulksurv_ pipeline.
+In particular, we highlight these two features: 
 
-`ggbulksurv` is very much under **active development**, and any feedback and contribution are welcome through the Issues page.
+1. [Convert lifespan data for GraphPad PRISM](https://qhuitan.github.io/ggbulksurv/articles/convert-prism.html): Easily convert lifespan data into GraphPad PRISM compatible formats with the `pivot_prism()` function. 
 
-**What is R, and how do I get started?**
+2. [Easily customized survival curves in R](https://qhuitan.github.io/ggbulksurv/articles/customizing-plot.html): Use the `run_bulksurv()` command for a default analysis (plot + stats). Customizations: subsetting data, changing colors, changing p-value adjustment methods, etc. 
 
-For complete beginners, see the Getting started with R vignette to complete setup. 
+`ggbulksurv` is very much under **active development**, and any feedback and contributions are welcome through the [Issues](https://github.com/qhuitan/ggbulksurv/issues) page.
 
 **Do I need this package?**
 
@@ -55,7 +45,7 @@ If you are conducting lifespan studies with _C.elegans_ and _D.melanogaster_ - p
 
 Install the following dependencies from CRAN. If you use the `tidyverse`, these should already exist: 
 ``` r
-install.packages(c("dplyr", "ggplot2", "janitor", "magrittr", "methods", "scales", "tidyr"))
+install.packages(c("dplyr", "ggplot2", "janitor", "magrittr", "scales", "tidyr"))
 ```
 
 Install two other dependencies from Bioconductor: 
@@ -68,111 +58,31 @@ BiocManager::install(c("survival", "survminer"))
 You can install the development version of `ggbulksurv` from [GitHub](https://github.com/) with:
 
 ``` r
-if (!require("devtools", quietly = TRUE))
-    install.packages("devtools")
+install.packages("devtools")
+```
+
+- For Mac users: If the above code gives an error, install Xcode. The easiest way to do this is via [Homebrew](https://brew.sh), a convenient package manager which automatically installs Xcode.
+
+```r
 devtools::install_github("qhuitan/ggbulksurv")
 ```
 
-## Getting started (quick)
-
-### 1. Read in your data with `read.csv()`. 
-
-Your data file should be a `csv` with 4 columns: `condition`, `day`, `dead`, `censored`. Additional columns will be removed from the analysis. 
+## Converting data for PRISM
 
 ```{r setup}
-library(ggbulksurv)
-library(survival)
-library(survminer)
+library(ggbulksurv) # load library
 ```
 
 
-Read in your `.csv` file with the following line of code: 
-```
-dat <- read.csv("your-csv-file.csv")
-```
-
-For the purposes of this tutorial, I've created a ficitonal sample dataset, `sample_data`, that we will use to illustrate the functions in this package. 
+`pivot_prism()` converts bulk survival data into a GraphPad PRISM-compatible format.
+Your input data file should be a `csv` with 4 columns: `condition`, `day`, `dead`, `censored`. Additional columns will be removed from the analysis. 
 
 ```{r}
 data(sample_data)
-dat <- sample_data # load sample data
-
-head(dat)
+dat <- sample_data # load fictional sample data
+# Read in your data. Remove the # in front of the following line and replace the filename with your actual file
+# dat <- read.csv("your-csv-file.csv")
 ```
-
-
-### 2. Run the survival analysis: 
-
-`ggbulksurv` can be run with the default settings using the `run_bulksurv()` command.
-
-Plotting a survival curve: 
-
-```{r survival}
-# Plot a survival curve
-p <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1", "Drug2"), 
-                  type = "survival")
-```
-
-Plotting a mortality curve: 
-
-```{r mortality}
-# Plot a mortality curve
-p <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1", "Drug2"), 
-                  type = "mortality",
-                  print_stats = FALSE # don't print stats
-                  )
-```
-
-## Further customizations
-
-### Changing the p-adjust method
-
-If needed, we can change the p.adjust method. `run_bulksurv()` accepts the following corrections: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". Default: "BH"
-
-```{r}
-p <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1", "Drug2"), 
-                  type = "survival",
-                  p_adjust_method = "bonferroni" # use bonferroni correction
-                  )
-```
-
-
-### Changing colors
-
-```{r surv_custom}
-p <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1", "Drug2"),
-                  print_stats = FALSE,                   # don't print stats
-                  palette = c("black", "red", "purple"), # Custom colors
-                  legend.title = "",                     # Remove legend title
-                  legend.position = c(0.9, 0.9),         # Position legend at top right
-                  add.pval = TRUE                        # Add pvalue
-             )
-```
-
-## Subsetting data
-
-What if you're only interested in two conditions (eg WT vs Drug1)? 
-
-```{r}
-# Plot
-p_filt <- run_bulksurv(dat, 
-                  sample_order = c("WT", "Drug1"), # specify conditions of interest
-                  print_stats = FALSE # don't print stats
-                  )
-```
-
-## Interfacing with PRISM
-
-To allow bulk survival data to be quickly converted to a PRISM-compatible format, use the `pivot_prism` function: 
-
-```{r}
-head(dat)
-```
-
 
 ```{r}
 df_prism <- pivot_prism(dat)
@@ -185,9 +95,44 @@ head(df_prism) # A quick look
 write.csv(df_prism, file = "lifespan_prism.csv")
 ```
 
+## ggbulksurv (R)
 
+### 1. Read in your data with `read.csv()`. 
+
+Your data file should be a `csv` with 4 columns: `condition`, `day`, `dead`, `censored`. Additional columns will be removed from the analysis. 
 
 ```{r}
-sessionInfo()
+library(ggbulksurv)
 ```
+
+
+Read in your `.csv` file with the following line of code: 
+
+```{r}
+data(sample_data)
+dat <- sample_data # load example data
+
+# Read in your data. Remove the # in front of the following line and replace the filename with your actual file
+# dat <- read.csv("your-csv-file.csv")
+```
+
+### 2. Run the survival analysis: 
+
+
+```{r survival}
+# Plot a survival curve
+p <- run_bulksurv(dat)
+```
+
+Plotting a mortality curve: 
+
+```{r mortality}
+# Plot a mortality curve
+p <- run_bulksurv(dat,
+                  type = "mortality",
+                  print_stats = FALSE # don't print stats
+                  )
+```
+
+
 

@@ -1,15 +1,48 @@
 url: https://qhuitan.github.io/ggbulksurv/
+
 development:
   mode: auto
-template:
-  bootstrap: 5
-articles:
-- title: ggbulksurv
-  navbar: ~
-  contents:
-  - ggbulksurv
-  - getting-started-with-r
-  - customizing-plots
-  - interfacing-with-other-packages
-  - faqs
+  version_label: default
 
+authors:
+  Qian Hui Tan:
+    href: "https://github.com/qhuitan"
+
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  title: "ggbulksurv"
+  type: default
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Tutorials"
+      menu:
+      -  text: "Home"
+         href: index.html
+      -  text: "Installing ggbulksurv"
+         href: articles/installation.html
+      -  text: "Getting started with R"
+         href: articles/getting-started-with-r.html
+      -  text: "Basic plots"
+         href: articles/basic-plot.html
+      -  text: "Customizing your plots"
+         href: articles/customizing-plots.html
+      -  text: "Interfacing with survival and survminer"
+         href: articles/interfacing-with-other-packages.html
+      -  text: "Converting to PRISM format"
+         href: articles/convert-prism.html
+      -  text: "FAQs"
+         href: articles/faqs.html
+    - text: "Changelog"
+      href: news/index.html
+
+  right:
+    - icon: fa-file-code-o
+      text: "Functions"
+      href: reference/index.html
+    - icon: fa-github fa-lg
+      text: "GitHub"
+      href: https://github.com/qhuitan/ggbulksurv

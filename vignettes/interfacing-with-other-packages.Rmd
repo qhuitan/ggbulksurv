@@ -16,16 +16,18 @@ knitr::opts_chunk$set(
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+
+Two of the most popular packages for survival analysis are [survival](https://cran.r-project.org/web/packages/survival/index.html) and [survminer](https://cran.r-project.org/web/packages/survminer/index.html). This vignette will demonstrate how to use `ggbulksurv`'s output as input to other survival packages. 
+
+We first start by documenting the three functions that `run_bulksurv()` wraps around. At each stage, we demonstrate how this can be used as input to other packages for the advanced user.
+
 ```{r setup}
 library(ggbulksurv)
 library(survival)
 library(survminer)
 ```
 
-
-Two of the most popular packages for survival analysis are [survival](https://cran.r-project.org/web/packages/survival/index.html) and [survminer](https://cran.r-project.org/web/packages/survminer/index.html). This vignette will demonstrate how to use `ggbulksurv`'s output as input to other survival packages. 
-
-We first start by documenting the three functions that `run_bulksurv()` wraps around. At each stage, we demonstrate how this can be used as input to other packages for the advanced user. 
+ 
 
 ## Behind the scenes
 
@@ -39,13 +41,24 @@ The `run_bulksurv()` command makes several choices for the user, with the caveat
 
 This section takes you through the 3 steps that `run_bulksurv()` wraps around. 
 
+```{r}
+# Load lifespan data
+data(sample_data)
+dat <- sample_data
+
+# To read in your own data, remove the # from the following line of code:
+# dat <- read_csv("your-lifespan-data.csv")
+```
+
+
 ## 1. Get individual survivals
 
 `get_indiv_surv` converts a table of bulk survival data into individual survivals. Each row now represents an individual. `day` represents the number of days lived, while `status` is either 0 (censored) or 1 (dead). 
 
 
 ```{r}
-df_isurv <- get_indiv_surv(sample_data,
+# Convert to one individual per row
+df_isurv <- get_indiv_surv(dat,
                            sample_order = c("WT", "Drug1", "Drug2"))
 
 head(df_isurv)
@@ -53,9 +66,11 @@ head(df_isurv)
 
 We now have a `tibble` with one individual per row. 
 
-At this point, this data can be used as input to other packages, such as  `survminer()` and `survival`. 
+At this point, this data can be used as input to other packages, such as `survminer()` and `survival`. 
 
 ## 2. Fit the survival object
+
+### fit_surv()
 
 `fit_surv` creates a `survfit` object for `day` and `status`, then fits a survival curve by `condition`. It takes in a `data.frame` with one individual per row, and creates a `survfit` object using the `survival::survfit()` function. 
 
@@ -65,122 +80,37 @@ df_fit <- fit_surv(df_isurv)
 
 head(df_fit)
 ```
+Interpretation: Drug1 has the shortest median lifespan of 4.5 days, with a 95% confidence interval (95% CI) of 4 to 6 days. In contrast, Drug2 has the longest median lifespan of 33 days, with a 95% CI of 32 to 35 days.
+
+### survival package
 
 Alternatively, you can fit this manually using the `survival` package: 
 
 ```{r}
-df_isurv <- survival::survfit(Surv(day, status) ~ condition,
+# Fit survival object
+df_fit <- survival::survfit(Surv(day, status) ~ condition,
                                 data = df_isurv)
+
+head(df_fit)
 ```
-
-Drug1 has the shortest median lifespan of 4.5 days, with a 95% confidence interval (95% CI) of 4 to 6 days. In contrast, Drug2 has the longest median lifespan of 33 days, with a 95% CI of 32 to 35 days.
-
 
 ## 3. Plot the survival object
 
 ### Using plot_surv()
 
-`plot_surv` is a wrapper around [survminer::ggsurvplot()]. As such, all additional arguments passed to `plot_surv` will be passed to `survminer::ggsurvplot()`. Some useful examples are illustrated below: 
+`plot_surv` is a wrapper around [survminer::ggsurvplot()]. As such, all additional arguments passed to `plot_surv` will be passed to `survminer::ggsurvplot()`. 
+
 
 ```{r surv_detail}
-df_isurv <- get_indiv_surv(sample_data,
+# Using ggbulksurv
+df_isurv <- get_indiv_surv(dat,
                            sample_order = c("WT", "Drug1", "Drug2"))
+
+df_fit <- fit_surv(df_isurv)
 
 plot_surv(fit = df_fit, 
           type = "survival",
           data = df_isurv)
-```
-
-#### Changing legend positions
-
-Specifying a position (`right`, `left`, `bottom` or `top`) with `legend.position`:
-
-```{r custom-legright}
-plot_surv(df_fit, 
-          type = "survival", 
-          data = df_isurv,
-          sample_order = c("WT", "Drug1", "Drug2"),
-          print_stats = FALSE,
-          legend.position = "right" # Change legend position
-          )
-```
-
-Specific coordinates can also be used. For bottom left, use `legend.position = c(0,0)`; for top right, use `legend.position = c(1,1)`.
-
-```{r custom-legcoord}
-plot_surv(df_fit, 
-          type = "survival", 
-          sample_order = c("WT", "Drug1", "Drug2"),
-          print_stats = FALSE,
-          data = df_isurv,
-          legend.position = c(0,0) # Specify coordinates
-          )
-```
-
-It doesn't fit - in fact, the legend is partially obscuring our x and y axes. 
-
-We can simplify the legend by removing the legend title and the trailing `condition=` symbol: 
-
-```{r custom-rmlegtitle}
-sample_order = c("WT", "Drug1", "Drug2")
-
-plot_surv(df_fit, 
-          type = "survival", 
-          sample_order = sample_order,
-          data = df_isurv,
-          print_stats = FALSE,
-          legend.position = c(0.09,0.2), # Specify coordinates
-          legend.title = "", # Remove legend title
-          legend.labs = sample_order # Remove `condition=`
-          )
-```
-
-#### Adding confidence intervals and median survival
-
-```{r custom-addci}
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          add.conf.int = TRUE, # Add 95% confidence interval
-          legend.position = "bottom")
-```
-
-```{r custom-addmedsurv}
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          add.median.survival = TRUE, # Add median survival line
-          legend.position = "bottom")
-```
-
-#### Customizing x-axis day breaks
-
-```{r custom-xbreak}
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          legend.position = "bottom",
-          break.x.by = 5 # Breaks every 5 days
-          )
-```
-
-#### Putting it all together: 
-
-```{r custom-1}
-sample_order = c("WT", "Drug1", "Drug2")
-
-plot_surv(df_fit, 
-          data = df_isurv,
-          type = "survival",
-          sample_order = sample_order,
-          legend.labs = sample_order,            # Rename legend
-          print_stats = FALSE,                   # don't print stats
-          palette = c("black", "red", "purple"), # Custom colors
-          legend.title = "",                     # Remove legend title
-          legend.position = c(0.9, 0.9),         # Position legend at top right
-          add.pval = TRUE,                        # Add pvalue
-          add.median.survival = TRUE             # Add 50% median line
-             )
 ```
 
 
@@ -189,77 +119,30 @@ plot_surv(df_fit,
 Alternatively, you can construct your own plots using `survminer::ggsurvplot`: 
 
 ```{r ggsurvplot, fig.height=6}
+df_isurv <- get_indiv_surv(dat,
+                           sample_order = c("WT", "Drug1", "Drug2"))
+
+df_fit <- fit_surv(df_isurv)
+
 survminer::ggsurvplot(fit = df_fit,
                       data = df_isurv,
-                      ncensor.plot = TRUE)
-```
-
-## 4. Print summary statistics
-
-### Using the `summary_stats` function: 
-
-Calculates median survival, logrank test and pairwise logrank test. 
-
-```{r}
-stats <- summary_stats(df_isurv, 
-                       type = "all")
-
-stats
-```
-
-This returns a `list` object, which allows us to individually pull out the values of interest. For example: 
-
-#### The logrank test: 
-
-```{r}
-stats$logrank
-```
-
-```{r}
-# chisq value of logrank test
-stats$logrank$chisq
+                      ncensor.plot = TRUE # add censor plot
+                      )
 ```
 
 
-```{r}
-# pvalue of logrank test
-stats$logrank$pvalue
-```
+## 4. Returning data
 
-#### Pairwise log-rank test: 
-```{r}
-stats$pairwise
-```
+`ggbulksurv` also provides functions to return data if you wish to use it in a different pipeline. Use the `returnData = TRUE` parameter to return everything as a list. 
 
 ```{r}
-# p-values
-stats$pairwise$p.value
-```
+df_survival <- run_bulksurv(dat, returnData = TRUE)
 
-To use a different p-value adjustment method, specify the p_adjust_method as follows:
-
-```{r}
-stats_2 <- summary_stats(df_isurv, 
-                       type = "all", 
-                       p_adjust_method = "bonferroni")
-
-stats_2
-```
-
-### Using the `survminer` package directly
-
-```{r}
-test = survminer::pairwise_survdiff(
-  formula = survival::Surv(day, status) ~ condition, # Fit a survival object
-  data = df_isurv,
-  p.adjust.method = "bonferroni" # Use bonferroni correction
-  )
-
-test
+class(df_survival)
+names(df_survival)
 ```
 
 ```{r}
-# obtain specific p-values
-test$p.value
+head(df_survival)
 ```
 

@@ -32,3 +32,14 @@ Some common lab examples that come to mind:
 - A worm that crawled into the abyss that is an agar crack
 
 Basically, if an individual was alive up till that point, and died/disappeared due to a reason __other__ than natural causes, we refer to it as a `censored` datapoint. 
+
+
+**What is bulk survival analysis?** 
+
+In bulk survival analysis, researchers place a certain number of organisms in a vial, and count the number of organisms that are dead/censored on any particular day. This produces a "one row, multiple individuals" data format, which is not compatible with most R survival packages (eg `survival` and `survminer`): 
+
+condition | day | dead | censored
+----      | --  | --   | ----
+WT        | 10  | 2    | 0
+WT        | 12  | 0    | 2
+...

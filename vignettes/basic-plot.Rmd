@@ -1,0 +1,82 @@
+---
+title: "Basic plots"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basic-plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+
+## Load libraries
+
+```{r setup}
+library(ggbulksurv)
+```
+
+## Import csv
+
+You should have 4 columns of data that look like this: 
+
+condition | day | dead | censored
+----      | --  | --   | ----
+WT        | 10  | 2    | 0
+WT        | 12  | 0    | 1
+...       |...  | ...  | ...
+
+
+```{r}
+# This is a fictional dataset that is bundled with the package, and is used
+# for the purposes of this tutorial
+data(sample_data)
+dat <- sample_data
+
+head(dat) # see the first few rows
+```
+
+
+To import your own data, do the following: 
+
+1. Export your Excel table as a `csv` file (eg: `your-csv-file.csv`). Note that all your conditions must be in __the same__ sheet. 
+2. Create an R project in the __same folder__ as your `csv` file. 
+3. Use the following line of code to import your `csv` file into R. 
+
+```
+dat <- read.csv("your-csv-file.csv")
+head(dat) # see the first few rows
+```
+
+What conditions are present? 
+
+```{r}
+unique(dat$condition)
+```
+
+## Survival plot
+
+`run_bulksurv()` plots a survival curve, and outputs median survival, log-rank test and pairwise log-rank test statistics: 
+
+```{r}
+p <- run_bulksurv(dat) # Default: survival curve
+```
+
+## Mortality plot
+
+Use `type = "mortality"` for a mortality curve:
+
+```{r}
+p <- run_bulksurv(dat, 
+                  print_stats = FALSE, 
+                  type = "mortality")
+```
+
+
