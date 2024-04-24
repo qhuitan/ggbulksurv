@@ -91,8 +91,8 @@ get_indiv_surv <- function(sample_data,
     dplyr::mutate(status = 0)
 
   ## -- Combine -- ##
-  df_combined <- dplyr::full_join(df_censored, df_dead,
-                           join_by("condition", "day", "status")) %>%
+  df_combined <- dplyr::full_join(df_censored, df_dead) %>%
+      #                     join_by("condition", "day", "status"))
     dplyr::arrange(day) %>%
     dplyr::ungroup()
 

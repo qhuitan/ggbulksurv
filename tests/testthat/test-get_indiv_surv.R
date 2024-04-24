@@ -10,15 +10,6 @@ test_that("error if columns are missing", {
   expect_error(get_indiv_surv(foo))
 })
 
-# test_that("error if sample_order is not equal to all unique conditions", {
-#   foo <- data.frame(condition = c("WT", "TRT"),
-#                     day       = c(1, 1),
-#                     dead      = c(2, 3),
-#                     censored  = c(1, 0))
-#
-#   expect_error(get_indiv_surv(foo, sample_order = c("WT")))
-# })
-
 
 test_that("cleaning names works", {
   # A data.frame with poorly formatted colnames
@@ -26,6 +17,29 @@ test_that("cleaning names works", {
   colnames(foo) <- c("Condition ", "day", "dead   ", "censored")
 
   expect_no_error(get_indiv_surv(foo, sample_order = c("WT")))
+})
+
+test_that("extra columns are not deleted", {
+  # original data
+  df <- tidyr::tribble(
+    ~condition, ~day, ~dead, ~censored, ~strain,
+    "WT", 1, 2, 0, "N2",
+    "Drug1", 10, 1, 1, "daf-2"
+  )
+
+  # expected result
+  df_combined <- tidyr::tribble(
+    ~condition, ~day, ~strain, ~status,
+    "WT", 1, "N2", 1,
+    "WT", 1, "N2", 1,
+    "Drug1", 10, "daf-2", 0,
+    "Drug1", 10, "daf-2", 1
+  )
+
+  df_combined$condition = factor(df_combined$condition,
+                                 levels = c("WT", "Drug1"))
+
+  expect_equal(get_indiv_surv(df), df_combined)
 })
 
 
