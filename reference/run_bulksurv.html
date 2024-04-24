@@ -178,6 +178,7 @@ Some useful parameters: <code>add.conf.int = TRUE</code>, <code>add.pval = TRUE<
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Default</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">run_bulksurv</span><span class="op">(</span><span class="va">sample_data</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x, condition, day, sex, status)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $median_survival</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -223,6 +224,7 @@ Some useful parameters: <code>add.conf.int = TRUE</code>, <code>add.pval = TRUE<
 <span class="r-in"><span>                 legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span>,         <span class="co"># Position legend at top right</span></span></span>
 <span class="r-in"><span>                 break.x.by <span class="op">=</span> <span class="fl">5</span>                         <span class="co"># x-axis breaks at 5-day intervals</span></span></span>
 <span class="r-in"><span>                 <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x, condition, day, sex, status)`</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>All aesthetics have length 1, but the data has 3 rows.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please consider using `annotate()` or provide this layer with data containing</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   a single row.</span>

@@ -142,7 +142,8 @@ customizations. To see all possible options, type
 <p>For comparison, here’s the default plot:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>,</span>
-<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
 </div>
 <div class="section level2">
@@ -157,7 +158,8 @@ customizations. To see all possible options, type
 <span>                  legend.title <span class="op">=</span> <span class="st">""</span>,                     <span class="co"># Remove legend title ("Condition")</span></span>
 <span>                  legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span>,         <span class="co"># Position legend at top right</span></span>
 <span>                  add.pval <span class="op">=</span> <span class="cn">TRUE</span>                       <span class="co"># Add pvalue</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-4-1.png" width="576"></p>
 </div>
 <div class="section level2">
@@ -168,7 +170,8 @@ parameter:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">sample_data</span>, </span>
 <span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Drug1"</span>, <span class="st">"WT"</span><span class="op">)</span>, <span class="co"># Compare WT vs Drug1, invert order</span></span>
-<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-5-1.png" width="576"></p>
 </div>
 <div class="section level2">
@@ -187,7 +190,8 @@ frequently used in R. To use these palettes, change the
 <span>             sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
 <span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>             palette <span class="op">=</span> <span class="st">"Set1"</span> <span class="co"># Custom brewer palette</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 </div>
 <div class="section level3">
@@ -202,7 +206,8 @@ colors can also be used in our plots:</p>
 <span>             sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
 <span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>             palette <span class="op">=</span> <span class="st">"npg"</span> <span class="co"># Nature palette</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
 </div>
 <div class="section level3">
@@ -215,7 +220,8 @@ hexadecimal value (“#80080”):</p>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">sample_data</span>, sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
 <span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>             palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"#800080"</span><span class="op">)</span> <span class="co"># Custom colors</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-8-1.png" width="576"></p>
 </div>
 </div>
@@ -230,7 +236,8 @@ hexadecimal value (“#80080”):</p>
 <span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
 <span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>             legend.title <span class="op">=</span> <span class="st">""</span> <span class="co"># Remove the legend title</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
 </div>
 <div class="section level3">
@@ -244,7 +251,8 @@ hexadecimal value (“#80080”):</p>
 <span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
 <span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>             legend.position <span class="op">=</span> <span class="st">"bottom"</span> <span class="co"># Set legend at bottom</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 <p>Note that <code>run_bulksurv</code> returns the plot as a
 <code>ggplot</code> object, so you can further customize it if
@@ -264,7 +272,8 @@ required:</p>
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">sample_data</span>, </span>
 <span>                  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
 <span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                  legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>                  legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
 </div>
 </div>
@@ -289,6 +298,7 @@ parameters within <code><a href="../reference/run_bulksurv.html">run_bulksurv()<
 <span>             p_adjust_method <span class="op">=</span> <span class="st">"bonferroni"</span>, <span class="co"># Change padj method</span></span>
 <span>             add.pval <span class="op">=</span> <span class="cn">TRUE</span>             <span class="co"># Add pvalue</span></span>
 <span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span><span class="co">#&gt; Warning in geom_segment(aes(x = 0, y = max(y2), xend = max(x1), yend = max(y2)), : All aesthetics have length 1, but the data has 3 rows.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please consider using `annotate()` or provide this layer with data containing</span></span>
 <span><span class="co">#&gt;   a single row.</span></span></code></pre></div>
@@ -301,7 +311,8 @@ parameters within <code><a href="../reference/run_bulksurv.html">run_bulksurv()<
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">sample_data</span>, sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span>,</span>
 <span>             print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>             add.conf.int <span class="op">=</span> <span class="cn">TRUE</span>  <span class="co"># Add confidence interval</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/custom-addci-1.png" width="576"></p>
 </div>
 <div class="section level2">
@@ -314,6 +325,7 @@ plot object, use <code>returnData = TRUE</code>. This will return all
 data and plots as a <code>list</code> object.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_survival</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, returnData <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "data"            "plot"            "median_survival" "logrank"        </span></span>
@@ -321,15 +333,15 @@ data and plots as a <code>list</code> object.</p>
 <p>Accessing the individual elements:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="co"># pivoted data</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
-<span><span class="co">#&gt;     x.x condition   day sex.x status   x.y sex.y</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2 WT            1 M          0    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;       x condition   day sex   status</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2 WT            1 M          0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 WT            1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2 WT            1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    28 Drug1         1 M          1</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">$</span><span class="va">median_survival</span><span class="op">)</span> <span class="co"># median survival</span></span>
 <span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>

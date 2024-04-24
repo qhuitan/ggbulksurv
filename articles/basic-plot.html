@@ -197,6 +197,7 @@ median survival, log-rank test and pairwise log-rank test
 statistics:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="co"># Default: survival curve</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span><span class="co">#&gt; $median_survival</span></span>
 <span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -236,7 +237,8 @@ statistics:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, </span>
 <span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span>                  type <span class="op">=</span> <span class="st">"mortality"</span><span class="op">)</span></span></code></pre></div>
+<span>                  type <span class="op">=</span> <span class="st">"mortality"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span></code></pre></div>
 <p><img src="basic-plot_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
   </div>

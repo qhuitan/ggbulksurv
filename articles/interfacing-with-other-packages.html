@@ -180,17 +180,18 @@ into individual survivals. Each row now represents an individual.
 <code class="sourceCode R"><span><span class="co"># Convert to one individual per row</span></span>
 <span><span class="va">df_isurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_indiv_surv.html">get_indiv_surv</a></span><span class="op">(</span><span class="va">dat</span>,</span>
 <span>                           sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
-<span><span class="co">#&gt;     x.x condition   day sex.x status   x.y sex.y</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2 WT            1 M          0    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;       x condition   day sex   status</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2 WT            1 M          0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 WT            1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2 WT            1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    28 Drug1         1 M          1</span></span></code></pre></div>
 <p>We now have a <code>tibble</code> with one individual per row.</p>
 <p>At this point, this data can be used as input to other packages, such
 as <code>survminer()</code> and <code>survival</code>.</p>
@@ -254,6 +255,7 @@ be passed to <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" c
 <code class="sourceCode R"><span><span class="co"># Using ggbulksurv</span></span>
 <span><span class="va">df_isurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_indiv_surv.html">get_indiv_surv</a></span><span class="op">(</span><span class="va">dat</span>,</span>
 <span>                           sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span></span>
 <span><span class="va">df_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_surv.html">fit_surv</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
 <span></span>
@@ -270,6 +272,7 @@ be passed to <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" c
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_isurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_indiv_surv.html">get_indiv_surv</a></span><span class="op">(</span><span class="va">dat</span>,</span>
 <span>                           sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Drug1"</span>, <span class="st">"Drug2"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span></span>
 <span><span class="va">df_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_surv.html">fit_surv</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
 <span></span>
@@ -289,6 +292,7 @@ wish to use it in a different pipeline. Use the
 list.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_survival</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, returnData <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "list"</span></span>
@@ -298,19 +302,19 @@ list.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $data</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 7</span></span></span>
-<span><span class="co">#&gt;      x.x condition   day sex.x status   x.y sex.y</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     2 WT            1 M          0    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    <span style="color: #BB0000;">NA</span> WT            2 <span style="color: #BB0000;">NA</span>         1     3 M    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    <span style="color: #BB0000;">NA</span> Drug1         2 <span style="color: #BB0000;">NA</span>         1    29 M    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 5</span></span></span>
+<span><span class="co">#&gt;        x condition   day sex   status</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     2 WT            1 M          0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2 WT            1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     2 WT            1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    28 Drug1         1 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     3 WT            2 M          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    29 Drug1         2 M          1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 140 more rows</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $plot</span></span></code></pre></div>
