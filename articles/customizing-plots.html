@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customizing Plots • ggbulksurv</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -288,7 +288,10 @@ parameters within <code><a href="../reference/run_bulksurv.html">run_bulksurv()<
 <span>             add.median.survival <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Add median survival</span></span>
 <span>             p_adjust_method <span class="op">=</span> <span class="st">"bonferroni"</span>, <span class="co"># Change padj method</span></span>
 <span>             add.pval <span class="op">=</span> <span class="cn">TRUE</span>             <span class="co"># Add pvalue</span></span>
-<span>             <span class="op">)</span></span></code></pre></div>
+<span>             <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in geom_segment(aes(x = 0, y = max(y2), xend = max(x1), yend = max(y2)), : All aesthetics have length 1, but the data has 3 rows.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please consider using `annotate()` or provide this layer with data containing</span></span>
+<span><span class="co">#&gt;   a single row.</span></span></code></pre></div>
 <p><img src="customizing-plots_files/figure-html/unnamed-chunk-13-1.png" width="576"></p>
 </div>
 <div class="section level2">
@@ -318,15 +321,15 @@ data and plots as a <code>list</code> object.</p>
 <p>Accessing the individual elements:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="co"># pivoted data</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
-<span><span class="co">#&gt;   condition   day status</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> WT            1      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> WT            1      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> WT            1      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Drug1         1      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Drug1         1      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Drug1         1      1</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
+<span><span class="co">#&gt;     x.x condition   day sex.x status   x.y sex.y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2 WT            1 M          0    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    <span style="color: #BB0000;">NA</span> WT            1 <span style="color: #BB0000;">NA</span>         1     2 M    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    <span style="color: #BB0000;">NA</span> Drug1         1 <span style="color: #BB0000;">NA</span>         1    28 M</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">$</span><span class="va">median_survival</span><span class="op">)</span> <span class="co"># median survival</span></span>
 <span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
@@ -394,7 +397,7 @@ data and plots as a <code>list</code> object.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
