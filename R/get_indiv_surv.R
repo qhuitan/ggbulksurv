@@ -45,7 +45,6 @@ get_indiv_surv <- function(sample_data,
   # Convert all colnames to lowercase, remove trailing spaces
   sample_data <- sample_data %>% janitor::clean_names()
 
-
   # Check that all 5 columns are present
   input_colnames <- colnames(sample_data)
   expected_colnames <- c("condition", "day", "dead", "censored")
@@ -53,6 +52,16 @@ get_indiv_surv <- function(sample_data,
   if (sum(input_colnames %in% expected_colnames) < length(expected_colnames)) {
     stop("Missing column(s) in input. Expected colnames: `condition`, `day`, `dead`, `censored`.")
 
+  }
+
+  # Check sample_order is a complete subset of unique(sample_data$condition)
+
+  a = unique(sample_order)
+  b = unique(sample_data$condition)
+
+  if (!setequal(intersect(a, b), a)) {
+    # if a is NOT a complete subset of b, stop and show an error message.
+    stop("`sample_order` must be a value in the `condition` column.")
   }
 
   # Check that sample_order and unique(sample_data$condition) are the same
