@@ -42,6 +42,12 @@ test_that("extra columns are not deleted", {
   expect_equal(get_indiv_surv(df), df_combined)
 })
 
+test_that("error when sample_order not in condition ", {
+
+  expect_error(get_indiv_surv(sample_data,
+                              sample_order = c("WT, F", "WT, M")))
+
+})
 
 
 
