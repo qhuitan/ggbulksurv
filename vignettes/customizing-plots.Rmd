@@ -65,16 +65,6 @@ p <- run_bulksurv(dat,
              )
 ```
 
-## Subsetting data
-
-To compare fewer conditions, change the `sample_order` parameter:
-
-```{r}
-p <- run_bulksurv(sample_data, 
-                  sample_order = c("Drug1", "WT"), # Compare WT vs Drug1, invert order
-                  print_stats = FALSE)
-```
-
 
 ## Changing colors
 
