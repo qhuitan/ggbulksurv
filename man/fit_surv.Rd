@@ -4,12 +4,18 @@
 \alias{fit_surv}
 \title{fit_surv}
 \usage{
-fit_surv(df_isurv, as_data_frame = FALSE)
+fit_surv(
+  df_isurv,
+  formula = "Surv(day, status) ~ condition",
+  as_data_frame = FALSE
+)
 }
 \arguments{
 \item{df_isurv}{A \code{data.frame} object of survival data with one individual per
-row. Column names must be \code{condition}, \code{day}, \code{status}. If starting with
-bulk survival data (multiple observations per row), run \code{\link[=get_indiv_surv]{get_indiv_surv()}} first.}
+row. If starting with bulk survival data (multiple observations per row), run \code{\link[=get_indiv_surv]{get_indiv_surv()}} first.}
+
+\item{formula}{A \code{character} string passed to a \link[survival:survfit.formula]{survival::survfit.formula}.
+Default: "Surv(day, status) ~ condition"}
 
 \item{as_data_frame}{If FALSE, returns a \code{survfit} object from the \code{survival}
 package. If TRUE, returns it in a \code{data.frame} format. Default: FALSE}
@@ -28,7 +34,12 @@ Call: \verb{survival::survfit(Surv(day, status) ~ condition, data = df_isurv)\}}
 # Convert bulk survival to individual survival
 df_isurv <- get_indiv_surv(sample_data, sample_order = c("WT", "Drug1", "Drug2"))
 
-# Fit survival object
+# Fit survival object with the default call (condition)
 surv_fit <- fit_surv(df_isurv)
+surv_fit
+
+# Fit survival object with custom call (condition + sex)
+surv_fit <- fit_surv(df_isurv, formula = "Surv(day, status) ~ sex + condition")
+surv_fit
 
 }

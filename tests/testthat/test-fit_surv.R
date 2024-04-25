@@ -27,3 +27,16 @@ test_that("cleaning names works", {
 
   expect_no_error(fit_surv(dat))
 })
+
+
+test_that("Fitting custom survival formula works", {
+
+  dat <- data.frame(condition = c("WT", "TRT"),
+                    sex = c("M", "F"),
+                    Day       = c(1, 1),
+                    status    = c(1, 1))
+
+  formula = "Surv(day, status) ~ condition + sex"
+
+  expect_no_error(fit_surv(dat, formula = formula))
+})
