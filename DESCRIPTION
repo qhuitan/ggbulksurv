@@ -1,6 +1,6 @@
 Package: ggbulksurv
 Title: Survival Analysis for Bulk Samples
-Version: 0.2.1
+Version: 0.3.0
 Authors@R: 
     person("Qian Hui", "Tan", , "qianhui_tan@aya.yale.edu", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
