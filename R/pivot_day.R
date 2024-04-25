@@ -36,7 +36,7 @@ pivot_day <- function(df) {
   # then wrap it in a list
   surv_list <- lapply(unique(df$condition), expand_vector)
 
-  # Convert list to data frame - error comes from here
+  # Convert list to data frame
   df_prism <- do.call(cbind, lapply(surv_list, `length<-`,
                                     max(lengths(surv_list))))
   df_prism <- as_tibble(df_prism, rownames = NULL,
