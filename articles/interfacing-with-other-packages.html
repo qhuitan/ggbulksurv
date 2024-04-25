@@ -210,6 +210,8 @@ individual per row, and creates a <code>survfit</code> object using the
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit survival object</span></span>
 <span><span class="va">df_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_surv.html">fit_surv</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
@@ -258,6 +260,8 @@ be passed to <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" c
 <span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span></span>
 <span><span class="va">df_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_surv.html">fit_surv</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot_surv.html">plot_surv</a></span><span class="op">(</span>fit <span class="op">=</span> <span class="va">df_fit</span>, </span>
 <span>          type <span class="op">=</span> <span class="st">"survival"</span>,</span>
@@ -275,6 +279,8 @@ be passed to <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" c
 <span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
 <span></span>
 <span><span class="va">df_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_surv.html">fit_surv</a></span><span class="op">(</span><span class="va">df_isurv</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span>
 <span></span>
 <span><span class="fu">survminer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" class="external-link">ggsurvplot</a></span><span class="op">(</span>fit <span class="op">=</span> <span class="va">df_fit</span>,</span>
 <span>                      data <span class="op">=</span> <span class="va">df_isurv</span>,</span>
@@ -293,6 +299,8 @@ list.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_survival</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, returnData <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">df_survival</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "list"</span></span>

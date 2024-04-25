@@ -106,7 +106,8 @@ Plot survival curve: plot_surv()
 <span>  <span class="va">sample_data</span>,</span>
 <span>  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">$</span><span class="va">condition</span><span class="op">)</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"survival"</span>,</span>
-<span>  print_stats <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  formula <span class="op">=</span> <span class="st">"Surv(day, status) ~ condition"</span>,</span>
+<span>  print_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  print_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  returnData <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  add.conf.int <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -129,6 +130,11 @@ Plot survival curve: plot_surv()
 
 <dt>type</dt>
 <dd><p>character, either "survival" (survival curve) or "mortality" (mortality curve)</p></dd>
+
+
+<dt>formula</dt>
+<dd><p>A <code>character</code> string passed to a <a href="https://rdrr.io/pkg/survival/man/survfit.formula.html" class="external-link">survival::survfit.formula</a>.
+Default: "Surv(day, status) ~ condition"</p></dd>
 
 
 <dt>print_stats</dt>
@@ -179,38 +185,18 @@ Some useful parameters: <code>add.conf.int = TRUE</code>, <code>add.pval = TRUE<
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Default</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">run_bulksurv</span><span class="op">(</span><span class="va">sample_data</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x, condition, day, sex, status)`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $median_survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  n events median 0.95LCL 0.95UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> condition=WT    50     47   20.0      19      21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> condition=Drug1 50     46    4.5       4       6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> condition=Drug2 50     42   33.0      32      35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $logrank</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> survival::survdiff(formula = Surv(day, status) ~ condition, data = df_isurv)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  N Observed Expected (O-E)^2/E (O-E)^2/V</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> condition=WT    50       47     31.2      7.94      12.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> condition=Drug1 50       46     12.5     89.99     128.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> condition=Drug2 50       42     91.3     26.60     123.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Chisq= 186  on 2 degrees of freedom, p= &lt;2e-16 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $pairwise</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	Pairwise comparisons using Log-Rank test </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> data:  df_isurv and condition </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       WT      Drug1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Drug1 2.3e-14 -      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Drug2 &lt; 2e-16 &lt; 2e-16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> P value adjustment method: BH </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> call: formula = Surv(day, status) ~ condition</span>
 <span class="r-plt img"><img src="run_bulksurv-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># custom formula</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">run_bulksurv</span><span class="op">(</span><span class="va">sample_data</span>,</span></span>
+<span class="r-in"><span>                  formula <span class="op">=</span> <span class="st">"Surv(day, status) ~ condition + sex"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x, condition, day, sex, status)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> call: formula = Surv(day, status) ~ condition + sex</span>
+<span class="r-plt img"><img src="run_bulksurv-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Customized plot</span></span></span>
@@ -225,10 +211,12 @@ Some useful parameters: <code>add.conf.int = TRUE</code>, <code>add.pval = TRUE<
 <span class="r-in"><span>                 break.x.by <span class="op">=</span> <span class="fl">5</span>                         <span class="co"># x-axis breaks at 5-day intervals</span></span></span>
 <span class="r-in"><span>                 <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x, condition, day, sex, status)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> call: formula = Surv(day, status) ~ condition</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>All aesthetics have length 1, but the data has 3 rows.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please consider using `annotate()` or provide this layer with data containing</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   a single row.</span>
-<span class="r-plt img"><img src="run_bulksurv-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="run_bulksurv-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

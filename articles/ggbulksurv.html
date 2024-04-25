@@ -218,36 +218,7 @@ function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
-<span><span class="co">#&gt; $median_survival</span></span>
-<span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                  n events median 0.95LCL 0.95UCL</span></span>
-<span><span class="co">#&gt; condition=WT    50     47   20.0      19      21</span></span>
-<span><span class="co">#&gt; condition=Drug1 50     46    4.5       4       6</span></span>
-<span><span class="co">#&gt; condition=Drug2 50     42   33.0      32      35</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $logrank</span></span>
-<span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; survival::survdiff(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                  N Observed Expected (O-E)^2/E (O-E)^2/V</span></span>
-<span><span class="co">#&gt; condition=WT    50       47     31.2      7.94      12.9</span></span>
-<span><span class="co">#&gt; condition=Drug1 50       46     12.5     89.99     128.1</span></span>
-<span><span class="co">#&gt; condition=Drug2 50       42     91.3     26.60     123.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  Chisq= 186  on 2 degrees of freedom, p= &lt;2e-16 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $pairwise</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  Pairwise comparisons using Log-Rank test </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; data:  df_isurv and condition </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       WT      Drug1  </span></span>
-<span><span class="co">#&gt; Drug1 2.3e-14 -      </span></span>
-<span><span class="co">#&gt; Drug2 &lt; 2e-16 &lt; 2e-16</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; P value adjustment method: BH</span></span></code></pre></div>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span></code></pre></div>
 <p><img src="ggbulksurv_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
   </div>

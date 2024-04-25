@@ -90,6 +90,21 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.0" id="ggbulksurv-030">ggbulksurv 0.3.0<a class="anchor" aria-label="anchor" href="#ggbulksurv-030"></a></h2>
+<div class="section level3">
+<h3 id="whats-new-0-3-0">What’s new<a class="anchor" aria-label="anchor" href="#whats-new-0-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/get_indiv_surv.html">get_indiv_surv()</a></code> now supports pivoting of multiple columns in addition to <code>condition</code> (eg: <code>sex</code>, <code>genotype</code>, <code>treatment</code>). However, at least one column must still be named <code>condition</code> to allow for proper pivoting. This column does not need to be included in the custom formula passed to <code><a href="../reference/run_bulksurv.html">run_bulksurv()</a></code>, but is necessary for <code><a href="../reference/get_indiv_surv.html">get_indiv_surv()</a></code> to work properly.</li>
+<li>
+<code><a href="../reference/run_bulksurv.html">run_bulksurv()</a></code> now allows custom formula via the <code>formula</code> parameter. Users can now input custom formula, such as <code>Surv(day, status) ~ condition + sex</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="enhancements-0-3-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-0-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/run_bulksurv.html">run_bulksurv()</a></code> now defaults to <code>print_stats = FALSE</code> to avoid verbose messages.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.1" id="ggbulksurv-021">ggbulksurv 0.2.1<a class="anchor" aria-label="anchor" href="#ggbulksurv-021"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-0-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-1"></a></h3>
