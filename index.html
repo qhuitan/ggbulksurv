@@ -206,7 +206,7 @@
 <div class="section level3">
 <h3 id="id_1-read-in-your-data-with-readcsv">1. Read in your data with <code>read.csv()</code>.<a class="anchor" aria-label="anchor" href="#id_1-read-in-your-data-with-readcsv"></a>
 </h3>
-<p>Your data file should be a <code>csv</code> with 4 columns: <code>condition</code>, <code>day</code>, <code>dead</code>, <code>censored</code>. Additional columns will be removed from the analysis.</p>
+<p>Your data file should be a <code>csv</code> with 4 columns: <code>condition</code>, <code>day</code>, <code>dead</code>, <code>censored</code>. Additional columns (<code>sex</code>, <code>genotype</code>, <code>treatment</code> etc) are <strong>allowed</strong> and will be retained in this analysis.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://qhuitan.github.io/ggbulksurv/">ggbulksurv</a></span><span class="op">)</span></span></code></pre></div>
 <p>Read in your <code>.csv</code> file with the following line of code:</p>
@@ -222,7 +222,12 @@
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot a survival curve</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>,</span>
+<span>                  print_stats <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># print stats. FALSE by default</span></span>
+<span>                  <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span>
 <span><span class="co">#&gt; $median_survival</span></span>
 <span><span class="co">#&gt; Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -258,10 +263,24 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot a mortality curve</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>,</span>
-<span>                  type <span class="op">=</span> <span class="st">"mortality"</span>,</span>
-<span>                  print_stats <span class="op">=</span> <span class="cn">FALSE</span> <span class="co"># don't print stats</span></span>
-<span>                  <span class="op">)</span></span></code></pre></div>
+<span>                  type <span class="op">=</span> <span class="st">"mortality"</span></span>
+<span>                  <span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition</span></span></code></pre></div>
 <p><img src="reference/figures/README-mortality-1.png"><!-- --></p>
+<p>Custom formula:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_bulksurv.html">run_bulksurv</a></span><span class="op">(</span><span class="va">dat</span>, </span>
+<span>                  <span class="co"># Specify custom survival formula: condition + sex</span></span>
+<span>                  formula <span class="op">=</span> <span class="st">"Surv(day, status) ~ condition + sex"</span>, </span>
+<span>                  <span class="co"># Split colors by condition column</span></span>
+<span>                  color <span class="op">=</span> <span class="st">"condition"</span>, </span>
+<span>                  <span class="co"># Change linetype by sex column</span></span>
+<span>                  linetype <span class="op">=</span> <span class="st">"sex"</span>, </span>
+<span>                  palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"forestgreen"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(x, condition, day, sex, status)`</span></span>
+<span><span class="co">#&gt; call: formula = Surv(day, status) ~ condition + sex</span></span></code></pre></div>
+<p><img src="reference/figures/README-custom-formula-1.png"><!-- --></p>
 </div>
 </div>
 </div>
