@@ -11,6 +11,8 @@
 #' @param sample_data `data.frame`, bulk survival data
 #' @param sample_order character vector of conditions. Eg: c("WT", "Drug1", "Drug2")
 #' @param type character, either "survival" (survival curve) or "mortality" (mortality curve)
+#' @param formula A `character` string passed to a [survival::survfit.formula].
+#'    Default: "Surv(day, status) ~ condition"
 #' @param print_stats logical, whether to print median survival, log-rank
 #'  test and pairwise log-rank test with p-value corrections. Default: TRUE
 #' @param print_plot logical, whether to print the plot. Also returns plot as a
@@ -29,6 +31,11 @@
 #' @examples
 #' # Default
 #' p <- run_bulksurv(sample_data)
+#'
+#' # custom formula
+#' p <- run_bulksurv(sample_data,
+#'                   formula = "Surv(day, status) ~ condition + sex")
+#'
 #'
 #'
 #' # Customized plot
@@ -49,7 +56,8 @@
 run_bulksurv <- function(sample_data,
                          sample_order = unique(sample_data$condition),
                          type = "survival",
-                         print_stats = TRUE,
+                         formula = "Surv(day, status) ~ condition",
+                         print_stats = FALSE,
                          print_plot = TRUE,
                          returnData = FALSE,
                          add.conf.int = FALSE,
@@ -58,24 +66,42 @@ run_bulksurv <- function(sample_data,
                          p_adjust_method = "BH",
                          ...){
 
-  # Convert bulk survival to individual survival
+  ## ----- Convert bulk survival to individual survival ----- ##
 
   df_isurv <- get_indiv_surv(sample_data, sample_order)
 
-  # Fit survival object
+  ## ----- Fit survival object ----- ##
 
-  surv_fit <- fit_surv(df_isurv)
+  surv_fit <- fit_surv(df_isurv, formula = formula)
 
-  # Plot survival curve
 
-  p <- plot_surv(fit = surv_fit, type = type,
-                 data = df_isurv,
-                 add.median.survival = add.median.survival,
-                 add.pval = add.pval,
-                 add.conf.int = add.conf.int,
-                 legend.labs = sample_order,
-                 p_adjust_method = p_adjust_method,
-                 ...)
+  ## ----- Plot survival curve ----- ##
+
+  if(formula == "Surv(day, status) ~ condition") {
+    # Default with subsets
+    # Default: fit only on condition
+
+    p <- plot_surv(fit = surv_fit, type = type,
+                   data = df_isurv,
+                   add.median.survival = add.median.survival,
+                   add.pval = add.pval,
+                   add.conf.int = add.conf.int,
+                   legend.labs = sample_order, # remove `condition=` from legend labs "
+                   p_adjust_method = p_adjust_method,
+                   ...)
+
+  } else {
+    p <- plot_surv(fit = surv_fit, type = type,
+                   data = df_isurv,
+                   add.median.survival = add.median.survival,
+                   add.pval = add.pval,
+                   add.conf.int = add.conf.int,
+                   p_adjust_method = p_adjust_method,
+                   ...)
+
+  }
+
+
 
   # if returnData = TRUE, returns everything as a list
   if(returnData == TRUE) {

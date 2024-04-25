@@ -8,7 +8,8 @@ run_bulksurv(
   sample_data,
   sample_order = unique(sample_data$condition),
   type = "survival",
-  print_stats = TRUE,
+  formula = "Surv(day, status) ~ condition",
+  print_stats = FALSE,
   print_plot = TRUE,
   returnData = FALSE,
   add.conf.int = FALSE,
@@ -24,6 +25,9 @@ run_bulksurv(
 \item{sample_order}{character vector of conditions. Eg: c("WT", "Drug1", "Drug2")}
 
 \item{type}{character, either "survival" (survival curve) or "mortality" (mortality curve)}
+
+\item{formula}{A \code{character} string passed to a \link[survival:survfit.formula]{survival::survfit.formula}.
+Default: "Surv(day, status) ~ condition"}
 
 \item{print_stats}{logical, whether to print median survival, log-rank
 test and pairwise log-rank test with p-value corrections. Default: TRUE}
@@ -59,6 +63,11 @@ This function performs a default survival analysis by running these steps:
 \examples{
 # Default
 p <- run_bulksurv(sample_data)
+
+# custom formula
+p <- run_bulksurv(sample_data,
+                  formula = "Surv(day, status) ~ condition + sex")
+
 
 
 # Customized plot
