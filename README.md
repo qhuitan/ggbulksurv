@@ -116,8 +116,8 @@ write.csv(df_prism, file = "lifespan_prism.csv")
 ### 1. Read in your data with `read.csv()`.
 
 Your data file should be a `csv` with 4 columns: `condition`, `day`,
-`dead`, `censored`. Additional columns will be removed from the
-analysis.
+`dead`, `censored`. Additional columns (`sex`, `genotype`, `treatment`
+etc) are **allowed** and will be retained in this analysis.
 
 ``` r
 library(ggbulksurv)
@@ -137,7 +137,12 @@ dat <- sample_data # load example data
 
 ``` r
 # Plot a survival curve
-p <- run_bulksurv(dat)
+p <- run_bulksurv(dat,
+                  print_stats = TRUE # print stats. FALSE by default
+                  )
+#> Joining with `by = join_by(x, condition, day, sex, status)`
+#> call: formula = Surv(day, status) ~ condition
+#> call: formula = Surv(day, status) ~ condition
 #> $median_survival
 #> Call: survfit(formula = Surv(day, status) ~ condition, data = df_isurv)
 #> 
@@ -177,9 +182,27 @@ Plotting a mortality curve:
 ``` r
 # Plot a mortality curve
 p <- run_bulksurv(dat,
-                  type = "mortality",
-                  print_stats = FALSE # don't print stats
+                  type = "mortality"
                   )
+#> Joining with `by = join_by(x, condition, day, sex, status)`
+#> call: formula = Surv(day, status) ~ condition
 ```
 
 ![](man/figures/README-mortality-1.png)<!-- -->
+
+Custom formula:
+
+``` r
+p <- run_bulksurv(dat, 
+                  # Specify custom survival formula: condition + sex
+                  formula = "Surv(day, status) ~ condition + sex", 
+                  # Split colors by condition column
+                  color = "condition", 
+                  # Change linetype by sex column
+                  linetype = "sex", 
+                  palette = c("red", "blue", "forestgreen"))
+#> Joining with `by = join_by(x, condition, day, sex, status)`
+#> call: formula = Surv(day, status) ~ condition + sex
+```
+
+![](man/figures/README-custom-formula-1.png)<!-- -->

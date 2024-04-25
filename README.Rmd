@@ -99,7 +99,7 @@ write.csv(df_prism, file = "lifespan_prism.csv")
 
 ### 1. Read in your data with `read.csv()`. 
 
-Your data file should be a `csv` with 4 columns: `condition`, `day`, `dead`, `censored`. Additional columns will be removed from the analysis. 
+Your data file should be a `csv` with 4 columns: `condition`, `day`, `dead`, `censored`. Additional columns (`sex`, `genotype`, `treatment` etc) are **allowed** and will be retained in this analysis.
 
 ```{r}
 library(ggbulksurv)
@@ -118,10 +118,11 @@ dat <- sample_data # load example data
 
 ### 2. Run the survival analysis: 
 
-
 ```{r survival}
 # Plot a survival curve
-p <- run_bulksurv(dat)
+p <- run_bulksurv(dat,
+                  print_stats = TRUE # print stats. FALSE by default
+                  )
 ```
 
 Plotting a mortality curve: 
@@ -129,9 +130,21 @@ Plotting a mortality curve:
 ```{r mortality}
 # Plot a mortality curve
 p <- run_bulksurv(dat,
-                  type = "mortality",
-                  print_stats = FALSE # don't print stats
+                  type = "mortality"
                   )
+```
+
+Custom formula: 
+
+```{r custom-formula}
+p <- run_bulksurv(dat, 
+                  # Specify custom survival formula: condition + sex
+                  formula = "Surv(day, status) ~ condition + sex", 
+                  # Split colors by condition column
+                  color = "condition", 
+                  # Change linetype by sex column
+                  linetype = "sex", 
+                  palette = c("red", "blue", "forestgreen"))
 ```
 
 
