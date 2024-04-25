@@ -1,3 +1,13 @@
+# ggbulksurv 0.3.0
+
+## What's new
+* `get_indiv_surv()` now supports pivoting of multiple columns in addition to `condition` (eg: `sex`, `genotype`, `treatment`). However, at least one column must still be named `condition` to allow for proper pivoting. This column does not need to be included in the custom formula passed to `run_bulksurv()`, but is necessary for `get_indiv_surv()` to work properly. 
+* `run_bulksurv()` now allows custom formula via the `formula` parameter. Users can now input custom formula, such as `Surv(day, status) ~ condition + sex`. 
+
+
+## Enhancements
+* `run_bulksurv()` now defaults to `print_stats = FALSE` to avoid verbose messages.
+
 # ggbulksurv 0.2.1
 
 ## Bug fixes
