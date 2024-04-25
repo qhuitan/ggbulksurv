@@ -28,10 +28,10 @@ navbar:
          href: articles/getting-started-with-r.html
       -  text: "Basic plots"
          href: articles/basic-plot.html
+      -  text: "Subsetting data"
+         href: articles/subset-and-reorder.html
       -  text: "Customizing your plots"
          href: articles/customizing-plots.html
-      -  text: "Interfacing with survival and survminer"
-         href: articles/interfacing-with-other-packages.html
       -  text: "Converting to PRISM format"
          href: articles/convert-prism.html
       -  text: "FAQs"
