@@ -1,0 +1,95 @@
+---
+title: "subset-and-reorder"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{subset-and-reorder}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ggbulksurv)
+```
+
+
+# Single variable (default)
+
+For most survival analysis, a simple, one-variable formula is used. 
+Call: `Surv(day, status) ~ condition`
+
+```{r}
+p <- run_bulksurv(sample_data)
+```
+
+## Subsetting one-variable formulae
+
+To compare fewer conditions, change the `sample_order` parameter. 
+
+Here, we subset AND invert the order: 
+
+```{r}
+p <- run_bulksurv(sample_data, 
+                  sample_order = c("Drug2", "WT"), # Compare WT vs Drug2, invert order
+                  print_stats = FALSE)
+```
+
+Note: `sample_order` only works for reordering the `condition` column. If you have a more complex design, an error message will be shown. 
+
+# More than 1 variable (complex)
+
+
+What happens when we want to model the effect of condition (drug) and another variable, such as sex? 
+
+Let's take a look at `sample_data`" 
+
+```{r}
+head(sample_data)
+```
+
+
+## Fitting a custom formula
+
+Use the `formula` parameter to specify a custom survival formula. 
+
+```{r}
+p <- run_bulksurv(sample_data, 
+                  formula = "Surv(day, status) ~ condition + sex")
+```
+
+## Customizing colors and linetypes
+
+We can use the `palette` parameter to specify custom colors: 
+
+```{r}
+p <- run_bulksurv(sample_data, 
+                  formula = "Surv(day, status) ~ condition + sex", 
+                  # Specify colors
+                  palette = c("lightgreen", "forestgreen", 
+                            "lightblue", "blue", 
+                            "pink", "firebrick"))
+```
+
+
+We can further customize colors by groups in the data. Here, we color by `condition` and split linetypes by `sex`. 
+
+```{r}
+p <- run_bulksurv(sample_data, 
+                  formula = "Surv(day, status) ~ condition + sex", 
+                  color = "condition", 
+                  linetype = "sex", 
+                  palette = c("red", "blue", "forestgreen"))
+```
+
+
+
+
+
+
+
