@@ -1,11 +1,8 @@
 bibentry(
-     bibtype = "Manual",
-     title = "ggbulksurv: An R package for bulk survival analysis",
-     author = c(
-       person("Qian Hui", "TAN", role = c("aut", "cre"),
-       email = "qianhui_tan@aya.yale.edu")
-     ),
-     year = "2023",
-     url = "https://qhuitan.github.io/ggbulksurv/",
-     key = "ggbulksurv"
-   )
+  bibtype  = "Article",
+  title    = {ggbulksurv}: An R package for easy Drosophila and C. elegans survival analysi,
+  author   = Qian Hui Tan, Nicholas Tolwinski, Nathan Harmston,
+  journal  = microPublication Biology,
+  year     = 2024,
+  doi      = 10.17912/micropub.biology.001060
+)
